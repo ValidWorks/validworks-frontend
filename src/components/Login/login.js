@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useMoralis } from "react-moralis";
 
 import {
@@ -6,27 +6,54 @@ import {
   Form,
 } from 'react-bootstrap';
 
-function Login() {
-  const { login } = useMoralis();
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+const Moralis = require('moralis');
 
-  return (
+class Login extends React.Component {
+  constructor() {
+    super();
 
-    <Form>
-      <Form.Group controlId="formBasicUsername">
-        <Form.Label>Username</Form.Label>
-        <Form.Control type="username" placeholder="Username" value={username} onChange={(event) => setUsername(event.currentTarget.value)} />
-      </Form.Group>
+    this.state = {
+      username: '',
+      password: ''
+    }
+  }
 
-      <Form.Group controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.currentTarget.value)}/>
-      </Form.Group>
+  handleSubmit = async event => {
+    event.preventDefault();
+    
+    // const { login } = useMoralis();
+    const { username, password } = this.state;
 
-      <Button onClick={() => login(username, password)}>Login</Button>
-    </Form>
-  );
+    try {
+      await Moralis.User.login(username, password);
+      this.setState({ username: "", password: ""});
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  handleChange = event => {
+    const { value, name } = event.target;
+    this.setState({ [name]: value });
+  }
+
+  render() {
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Group controlId="formBasicUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control type="username" placeholder="Username" value={this.state.username} handleChange={this.handleChange} />
+        </Form.Group>
+  
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" placeholder="Password" value={this.state.password} handleChange={this.handleChange}/>
+        </Form.Group>
+  
+        <Button type="submit">Login</Button>
+      </Form>
+    );
+  }
 };
 
 export default Login;

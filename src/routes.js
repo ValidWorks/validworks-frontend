@@ -1,5 +1,6 @@
 import React from 'react';
-import { Router, Route} from 'react-router';
+import { Redirect } from 'react-router-dom'
+import { useMoralis } from 'react-moralis';
 
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
@@ -27,10 +28,9 @@ const routes = [
 ]
 const wrappedRoutes = () => {
   return routes.map((route) => {
-    const title = route.title ? `${route.title} • Elrond Dapp` : 'Elrond Dapp';
     return {
       path: route.path,
-      component: withPageTitle(title, route.component),
+      component: withPageTitle(route.title, route.component),
     };
   });
 };
