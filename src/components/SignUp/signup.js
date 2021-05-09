@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useMoralis } from "react-moralis";
 
 import {
   Button,
@@ -19,10 +18,9 @@ class SignUp extends React.Component {
     }
   }
 
-  handleSubmit = async event => {
+  handleSubmit = event => {
     event.preventDefault();
     
-    // const { signup } = useMoralis();
     const { username, email, password} = this.state;
     const user = new Moralis.User();
     user.set('username', username);
@@ -30,7 +28,7 @@ class SignUp extends React.Component {
     user.set('email', email);
 
     try {
-      await user.signUp();
+      user.signUp();
       this.setState({ username: "", email: "", password: ""});
     } catch(error) {
       console.log(error);
@@ -47,12 +45,12 @@ class SignUp extends React.Component {
       <Form onSubmit={this.handleSubmit}>
         <Form.Group controlId="formBasicUsername">
           <Form.Label>Username</Form.Label>
-          <Form.Control type="username" placeholder="Username" value={this.state.username} handleChange={this.handleChange} />
+          <Form.Control name="username" type="username" placeholder="Username" value={this.state.username} onChange={this.handleChange} />
         </Form.Group>
 
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" value={this.state.email} handleChange={this.handleChange} />
+          <Form.Control name="email" type="email" placeholder="Enter email" value={this.state.email} onChange={this.handleChange} />
           <Form.Text className="text-muted">
             We'll never share your email with anyone else.
           </Form.Text>
@@ -60,7 +58,7 @@ class SignUp extends React.Component {
 
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" value={this.state.password} handleChange={this.handleChange} />
+          <Form.Control name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
         </Form.Group>
 
         <Button type="submit">Sign up</Button>

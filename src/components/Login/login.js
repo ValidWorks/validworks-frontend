@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useMoralis } from "react-moralis";
 
 import {
   Button,
@@ -9,8 +8,8 @@ import {
 const Moralis = require('moralis');
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       username: '',
@@ -18,14 +17,13 @@ class Login extends React.Component {
     }
   }
 
-  handleSubmit = async event => {
+  handleSubmit = event => {
     event.preventDefault();
     
-    // const { login } = useMoralis();
     const { username, password } = this.state;
 
     try {
-      await Moralis.User.login(username, password);
+      Moralis.User.logIn(username, password);
       this.setState({ username: "", password: ""});
     } catch(error) {
       console.log(error);
@@ -39,15 +37,15 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit.bind(this)}>
         <Form.Group controlId="formBasicUsername">
           <Form.Label>Username</Form.Label>
-          <Form.Control type="username" placeholder="Username" value={this.state.username} handleChange={this.handleChange} />
+          <Form.Control name="username" type="username" placeholder="Username" value={this.state.username} onChange={this.handleChange.bind(this)} />
         </Form.Group>
   
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" value={this.state.password} handleChange={this.handleChange}/>
+          <Form.Control name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange.bind(this)}/>
         </Form.Group>
   
         <Button type="submit">Login</Button>
