@@ -1,7 +1,3 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom'
-import { useMoralis } from 'react-moralis';
-
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";

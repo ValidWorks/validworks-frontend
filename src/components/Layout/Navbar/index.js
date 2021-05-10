@@ -1,4 +1,3 @@
-import { Redirect } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
 
