@@ -1,25 +1,27 @@
-import Dashboard from "./pages/Dashboard";
-import Home from "./pages/Home";
-import Auth from "./pages/Auth";
+import About from "./pages/About";
+import Marketplace from "./pages/Marketplace";
+import Auth from "./pages/auth/Auth";
 
 import withPageTitle from "./components/PageTitle";
 
 const routes = [
   {
     path: '/',
-    title: 'Home',
-    component: Home,
+    title: 'About',
+    component: About,
+    exact: true
   },
   {
-    path: '/dashboard',
-    title: 'Dashboard',
-    component: Dashboard,
+    path: '/marketplace',
+    title: 'Marketplace',
+    component: Marketplace,
+    exact: false
   },
-
   {
     path: '/auth',
     title: 'Auth',
     component: Auth,
+    exact: false
   },
 ]
 const wrappedRoutes = () => {

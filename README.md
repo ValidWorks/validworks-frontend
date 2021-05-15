@@ -45,21 +45,41 @@ yarn build // builds the app for production to the build folder
 - [x] Login
 - [ ] Dashboard
   - [ ] Stats on the website
-- [ ] Home Page
-  - [ ] List of active gigs
+- [ ] My Orders
+  - [ ] View the gigs that I have ordered
+- [ ] My Gigs
+  - [ ] View the gigs that I have posted 
+  - [ ] Reviews
+- [ ] Marketplace
+  - [ ] Explore new gig postings
+  - [ ] Category page
+  - [ ] Sub category page
+  - [ ] Searching of gigs
+  - [ ] Filtering of gigs
 - [ ] User Profile
   - [ ] Selection of skill sets
   - [ ] Linking elrond wallet to the account
   - [ ] Edit Profile
   - [ ] View Profile
 - [ ] Gig page
-  - [ ] Posting of a gig
+  - [X] Posting of a gig
+  - [x] Viewing of a gig
   - [ ] Ordering of a gig
   - [ ] Setting of deadline
   - [ ] Deposit into a gig
   - [ ] Confirmation of a gig
   - [ ] Claim payment
   - [ ] Cancelling of a gig
+
+<b>Backend</b>
+- [ ] Database needed
+  - [ ] User (username, password, erdaddr)
+  - [ ] Gig (title, price, category, description, sellerId)
+  - [ ] Order (buyerId, gigId, price, deposit)
+  - [ ] Pricing (tentative)
+
+<b>Current problem faced</b>
+- [ ] Redirection through a promise
 
 
 ## Future Extensions

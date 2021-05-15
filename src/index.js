@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { MoralisProvider } from 'react-moralis';
 
 import reportWebVitals from './reportWebVitals';
 
@@ -8,15 +7,20 @@ import App from './App';
 
 // Importing the Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
+import moralis from 'moralis'
+
+// const Moralis = require('moralis')
 
 const appId = "bbBYitqcYOjgWocrxD77dmG5KTfMz6x7snnWuBh0"; // APP ID
 const serverUrl = "https://lvgfbwbjbxtu.moralis.io:2053/server";
+moralis.initialize(appId)
+moralis.serverURL = serverUrl
 
 ReactDOM.render(
   <React.StrictMode>
-    <MoralisProvider appId={appId} serverUrl={serverUrl}>
+    {/* <MoralisProvider appId={appId} serverUrl={serverUrl}> */}
       <App />
-    </MoralisProvider>
+    {/* </MoralisProvider> */}
   </React.StrictMode>,
   document.getElementById('root'),
 );

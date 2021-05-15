@@ -4,11 +4,11 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
 
 import Footer from './Footer';
-import Navbar from './Navbar';
+import Navbar from './NavBar';
 
-function Layout({children}) {
+const Layout = ({children}) => {
   return (
-		<Container className='p-3'>
+		<Container fluid className='p-3'>
 			<Navbar />
 			<div className="bg-light d-flex flex-column flex-fill wrapper">
 				<Jumbotron>
