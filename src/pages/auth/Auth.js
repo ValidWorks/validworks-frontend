@@ -1,14 +1,14 @@
 import React from 'react'
-import { useMoralis } from "react-moralis";
 import { Switch, Route, Redirect } from 'react-router-dom'
+import moralis from 'moralis'
 
 import Login from './Login';
 import SignUp from './SignUp';
 
 const Auth = () => {
-  const { isAuthenticated } = useMoralis();
+  const currentUser = moralis.User.current()
 
-  if (isAuthenticated) {
+  if (currentUser) {
     return <Redirect to="/marketplace"/>
   }
 

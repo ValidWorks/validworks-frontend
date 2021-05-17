@@ -10,11 +10,11 @@ const Layout = ({children}) => {
   return (
 		<Container fluid className='p-3'>
 			<Navbar />
-			<div className="bg-light d-flex flex-column flex-fill wrapper">
-				<Jumbotron>
+			<Jumbotron>
+				<Container>
 					<main className="d-flex flex-column flex-grow-1">{children}</main>
-				</Jumbotron>
-			</div>
+				</Container>
+			</Jumbotron>
 			<Footer />
 		</Container>
   );

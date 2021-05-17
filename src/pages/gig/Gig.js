@@ -6,6 +6,8 @@ import MyOrders from './MyOrders'
 import CreateGig from './CreateGig'
 import EditGig from './EditGig'
 import ViewGig from './ViewGig'
+import OrderGig from './OrderGig'
+import OrderSuccess from './OrderSuccess'
 
 const Gig = () => {
   return (
@@ -21,6 +23,10 @@ const Gig = () => {
       </Route>
       <Route exact path="/gig/view/:gigId" render={(props) => <ViewGig {...props}/>}/>
       <Route exact path="/gig/edit/:gigId" render={(props) => <EditGig {...props}/>}/>
+      <Route exact path="/gig/order/:gigId" render={(props) => <OrderGig {...props}/>}/>
+      <Route exact path="/gig/order/success">
+        <OrderSuccess />
+      </Route>
       <Redirect to="/gig/create" />
     </Switch>
   )

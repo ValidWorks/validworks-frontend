@@ -1,78 +1,134 @@
-const Moralis = require('moralis')
+import moralis from 'moralis'
+import { getErdAddrByUserId } from './UserUtils'
 
-const createNewGig = (title, price, category, description, sellerId) => {
-  const Gig = Moralis.Object.extend("Gig")
+// Database Objects
+const Gig = moralis.Object.extend("Gig", {
+  getId: function() {
+    return this.id.toString()
+  },
+  getThumbnail: function() {
+    return this.get('thumbnail')
+  },
+  getTitle: function() {
+    return this.get('title').toString()
+  },
+  getPrice: function() {
+    return this.get('price').toString()
+  },
+  getSellerId: function() {
+    return this.get('sellerId').toString()
+  },
+  getDesc: function() {
+    return this.get('description').toString()
+  },
+  getCategory: function() {
+    return this.get('category').toString()
+  },
+})
+
+const Order = moralis.Object.extend("Order", {
+  getId: function() {
+    return this.id.toString()
+  },
+  getGigId: function() {
+    return this.get("gigId").toString()
+  },
+  getBuyerId: function() {
+    return this.get("buyerId").toString()
+  },
+  getSellerId: function() {
+    return this.get("sellerId").toString()
+  },
+  getTxHash: function() {
+    return this.get("txHash").toString()
+  },
+  getStatus: function() {
+    return this.get("status").toString()
+  }
+})
+
+// Functions
+const createNewGig = async (thumbnail, title, price, category, description, sellerId) => {
   const newGig = new Gig()
   
+  newGig.set("thumbnail", thumbnail)
   newGig.set("title", title.toString())
   newGig.set("price", parseFloat(price))
   newGig.set("description", description.toString())
   newGig.set("category", category.toString())
   newGig.set("sellerId", sellerId.toString())
 
-  const gigId = newGig.save()
-  .then((newGig) => {
-    console.log("New Gig created with the gigId: ", newGig.id)
-    return newGig.id.toString()
-  }, (error) => {
-    console.error("Failed to create new Gig, with the error: ", error.message)
-  })
+  const gig = await newGig.save()
 
-  return gigId
+  return gig
 }
 
-const editGig = (gigId, title, price, category, description) => {
-  const Gig = Moralis.Object.extend("Gig")
-  const gigQuery = new Moralis.Query(Gig)
-  gigQuery.get(gigId)
-  .then((gig) => {
-    console.log("Gig was retrieved successfully")
-    gig.set("title", title)
-    gig.set("price", price)
-    gig.set("description", description)
-    gig.set("category", category)
-  }, (error) => {
-    console.log("Failed to retrieve Gig, with the error: ", error.message)
-  })
+const editGig = async (gigId, title, price, category, description) => {
+  const gigQuery = new moralis.Query(Gig)
+  const existingGig = await gigQuery.get(gigId)
+  existingGig
+    .then((gig) => {
+      console.log("Gig was retrieved successfully")
+      gig.set("title", title)
+      gig.set("price", price)
+      gig.set("description", description)
+      gig.set("category", category)
+    }, (error) => {
+      console.log("Failed to retrieve Gig, with the error: ", error.message)
+    })
 }
 
-const selectGigById = (gigId) => {
-  const Gig = Moralis.Object.extend("Gig", {
-    getId: function() {
-      return this.getId().toString()
-    },
-    getTitle: function() {
-      return this.get('title').toString()
-    },
-    getPrice: function() {
-      return this.get('price').toString()
-    },
-    getSeller: function() {
-      return this.get('sellerId').toString()
-    },
-    getDesc: function() {
-      return this.get('description').toString()
-    },
-    getCategory: function() {
-      return this.get('category').toString()
-    }
+const orderGig = async (gigId, buyerId, sellerId) => {
+  // Find the seller address using the seller id
+  const sellerErdAddr = getErdAddrByUserId(sellerId)
 
-  })
-  const gigQuery = new Moralis.Query(Gig)
+  // order the gig onchain using erdjs
+
+  // get the status of the order using the elrond api
+  const txHash = ""
+  const status = "ordered"
+
+  // add the order to the database as well as the status
+  const newOrder = new Order()
+
+  newOrder.set("gigId", gigId.toString())
+  newOrder.set("buyerId", buyerId.toString())
+  newOrder.set("sellerId", sellerId.toString())
+  newOrder.set("txHash", txHash.toString())
+  newOrder.set("status", status.toString())
+
+  const order = await newOrder.save()
+
+  return order
+}
+
+const selectGigById = async (gigId) => {
+  const gigQuery = new moralis.Query(Gig)
   try {
-    const result = gigQuery.get(gigId)
+    const result = await gigQuery.get(gigId)
     return result
   } catch (error) {
     console.log("Failed to retrieve Gig, with the error: ", error.message)
   }
 }
 
-const selectGigsByBuyerId = (buyerId) => {
+const selectGigsByBuyerId = async (buyerId) => {
+  // Buyer orders from the Order database
+  // TODO: Should set ACL to only allow the buyer to query his own orders
+  const orderQuery = new moralis.Query(Order)
+  orderQuery.equalTo("buyerId", buyerId)
+  const results = await orderQuery.find()
 
+  return results
 }
 
-const selectGigsBySellerId = (sellerId) => {
+const selectGigsBySellerId = async (sellerId) => {
+  // Seller listings from the Gig database
+  const gigQuery = new moralis.Query(Gig)
+  gigQuery.equalTo("sellerId", sellerId)
+  const results = await gigQuery.find()
 
+  return results
 }
 
-export { createNewGig, editGig, selectGigById, selectGigsByBuyerId, selectGigsBySellerId }
+export { createNewGig, editGig, orderGig, selectGigById, selectGigsByBuyerId, selectGigsBySellerId }

@@ -5,7 +5,7 @@ import { Navbar as BsNavbar, Nav, NavbarBrand, Form, FormControl } from 'react-b
 import moralis from 'moralis'
 
 const Navbar = () => {
-  // const { isAuthenticated, logout } = useMoralis()
+  // eslint-disable-next-line no-unused-vars
   const currentUser = moralis.User.current()
 
   return (

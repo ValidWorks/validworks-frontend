@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Form } from 'react-bootstrap'
-// import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { editGig, selectGigById } from '../../utils/GigUtils'
@@ -9,27 +8,47 @@ import { getGigCategories } from '../../utils/MarketPlaceUtils'
 const EditGig = ({ match }) => {
   const { gigId } = match.params
 
-  const gig = selectGigById(gigId)
+  const [title, setTitle] = useState('')
+  const [price, setPrice] = useState('')
+  const [category, setCategory] = useState('')
+  const [desc, setDesc] = useState('')
+  const [gig, setGig] = useState()
 
-  const [title, setTitle] = useState(gig.getTitle())
-  const [price, setPrice] = useState(gig.getPrice())
-  const [category, setCategory] = useState(gig.getCategory())
-  const [desc, setDesc] = useState(gig.getDesc())
-
-  // const dispatch = useDispatch()
   const history = useHistory()
-  // We need the wallet address 
 
-  const onTitleChanged = (e) => setTitle(e.target.value)
-  const onPriceChanged = (e) => setPrice(e.target.value)
-  const onCategoryChanged = (e) => setCategory(e.target.value)
-  const onDescChanged = (e) => setDesc(e.target.value)
+  useEffect(() => {
+    try {
+      selectGigById(gigId)
+        .then(gig => {
+          console.log("Gig successfully retrieved")
+          setGig(gig)
+          setTitle(gig.getTitle())
+          setPrice(gig.getPrice())
+          setCategory(gig.getCategory())
+          setDesc(gig.getDesc())
+        })
+    } catch (err) {
+      console.log("Error retrieving gig", err)
+    }
+  }, [gigId])
 
-  const onEditGig = () => {
+  
+
+  // TODO: make this into a custom error page
+  if (!gig) {
+    return (<h2>Gig not found!</h2>)
+  }
+
+  const onEditGig = (event) => {
+    event.preventDefault()
+
     if (title && price && category) {
       try {
         editGig(gigId, title, price, category, desc)
-        history.push(`/gig/view/${gigId}`)
+          .then(() => {
+            console.log("Gig successfully updated.")
+            history.push(`/gig/view/${gigId}`)
+          })
       } catch (err) {
         console.error('Failed to edit Gig: ', err)
       }
@@ -43,28 +62,29 @@ const EditGig = ({ match }) => {
       <Form onSubmit={onEditGig}>
         <Form.Group>
           <Form.Label>Title</Form.Label>
-          <Form.Control type="text" placeholder="My New Gig" value={title} onChange={onTitleChanged}/>
+          <Form.Control type="text" placeholder="My New Gig" value={title} onChange={(e) => setTitle(e.target.value)}/>
         </Form.Group>
 
         <Form.Group>
           <Form.Label>Price</Form.Label>
-          <Form.Control type="number" placeholder="10" value={price} onChange={onPriceChanged}/>
+          <Form.Control type="number" placeholder="10" value={price} onChange={(e) => setPrice(e.target.value)}/>
         </Form.Group>
 
         <Form.Group>
           <Form.Label>Category</Form.Label>
-          <Form.Control as="select" value={category} onChange={onCategoryChanged}>
-            {categories.map(cat => {
-              <option>{cat}</option>
-            })}
+          <Form.Control as="select" value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option>Web Development</option>
+            {/* {categories.map(cat => {
+              return (<option>{cat}</option>)
+            })} */}
           </Form.Control>
         </Form.Group>
 
         <Form.Group>
           <Form.Label>Description</Form.Label>
-          <Form.Control as="textarea" rows={3} value={desc} onChange={onDescChanged}/>
+          <Form.Control as="textarea" rows={3} value={desc} onChange={(e) => setDesc(e.target.value)}/>
         </Form.Group>
-        <Button variant="primary" type="submit">List Gig</Button>
+        <Button variant="primary" type="submit">Save Gig</Button>
       </Form>
     </div>
   )

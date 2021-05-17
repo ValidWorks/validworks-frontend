@@ -1,25 +1,44 @@
 import React, { useEffect, useState } from 'react'
+import { CardColumns } from 'react-bootstrap'
+import moralis from 'moralis'
 
 import { selectGigsByBuyerId } from '../../utils/GigUtils'
+import GigCard from '../../components/gig/GigCard'
 
 const MyOrders = () => {
-  const [gigs, setGigs] = useState()
+  const currentUser = moralis.User.current()
+  const buyerId = currentUser.id
 
-  const buyerId = 0
+  const [gigs, setGigs] = useState()
 
   useEffect(() => {
     try {
       selectGigsByBuyerId(buyerId)
-        .then(gig => setGigs(gig))
+        .then(g => setGigs(g))
     } catch (err) {
       console.log("Error retrieving gig", err)
     }
   }, [])
+
+  let cards = ""
+  if (gigs) {
+    cards = (
+      <CardColumns>
+        {gigs.map((gig) => (
+          <GigCard gig={gig} />
+        ))}
+      </CardColumns>
+    )
+  }
   
   return (
-    <h2>
-      You are at the My Orders page
-    </h2>
+    <div>
+      <h2>
+        You are at the My Orders page
+      </h2>
+      { cards }
+    </div>
+    
   )
 }
 

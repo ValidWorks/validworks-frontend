@@ -1,11 +1,12 @@
 import React from 'react';
+import { Container } from 'react-bootstrap'
 
 const Footer = () => {
   return (
-    <footer className="text-center mt-2 mb-3">
-      <div>
-        <span className="d-flex align-items-center">Designed by ValidWorks</span>
-      </div>
+    <footer className="text-muted">
+      <Container>
+        <p className="text-center">Designed by ValidWorks &copy; 2021</p>
+      </Container>
     </footer>
   );
 };

@@ -48,7 +48,7 @@ yarn build // builds the app for production to the build folder
 - [ ] My Orders
   - [ ] View the gigs that I have ordered
 - [ ] My Gigs
-  - [ ] View the gigs that I have posted 
+  - [x] View the gigs that I have posted 
   - [ ] Reviews
 - [ ] Marketplace
   - [ ] Explore new gig postings
@@ -59,11 +59,15 @@ yarn build // builds the app for production to the build folder
 - [ ] User Profile
   - [ ] Selection of skill sets
   - [ ] Linking elrond wallet to the account
-  - [ ] Edit Profile
+  - [x] Edit Profile
+  - [x] Uploading of profile photo using IPFS
   - [ ] View Profile
+  - [ ] User ACL (only allow the editing of the profile by the current authenticated user)
+  - [ ] Password reset when the user forgets the password
 - [ ] Gig page
   - [X] Posting of a gig
   - [x] Viewing of a gig
+  - [ ] Gig ACL (only allow the editing of the gig by the one who posted)
   - [ ] Ordering of a gig
   - [ ] Setting of deadline
   - [ ] Deposit into a gig
@@ -73,13 +77,16 @@ yarn build // builds the app for production to the build folder
 
 <b>Backend</b>
 - [ ] Database needed
-  - [ ] User (username, password, erdaddr)
-  - [ ] Gig (title, price, category, description, sellerId)
-  - [ ] Order (buyerId, gigId, price, deposit)
-  - [ ] Pricing (tentative)
+  - [ ] User (username, email, password, erdaddr, emailVerified)
+  - [ ] Category (name, imageUrl)
+  - [ ] SubCategory extends Category (name, categoryId, imageUrl?)
+  - [ ] Gig extends SubCategory (title, price, subCategoryId, description, sellerId)
+  - [ ] Order extends Gig (gigId, buyerId, sellerId, txHash, status)
+  - [ ] Pricing extends Gig (tentative) // For different pricing tiers depending on the complexity of the gig
 
 <b>Current problem faced</b>
-- [ ] Redirection through a promise
+- [x] Redirection through a promise
+- [ ] Linking wallet to account
 
 
 ## Future Extensions

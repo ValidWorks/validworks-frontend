@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { Redirect } from 'react-router-dom'
+import moralis from 'moralis'
 
 const ViewProfile = () => {
-  useEffect(() => {
-    
-  }, [])
-  
+  const currentUser = moralis.User.current()
+
+  if (!currentUser) {
+    return <Redirect to='/auth'/>
+  }
+
   return (
-    <h2>
-      You are at the Profile page
-    </h2>
+    <div>
+      <h2>
+        You are at the view Profile page
+      </h2>
+    </div>
+    
   )
   
 }
