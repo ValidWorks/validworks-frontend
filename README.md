@@ -83,7 +83,7 @@ yarn build // builds the app for production to the build folder
   - [ ] Gig extends SubCategory (title, price, subCategoryId, description, sellerId)
   - [ ] Order extends Gig (gigId, buyerId, sellerId, txHash, status)
 
-- Addition Database
+- [ ] Addition Database
   - [ ] Pricing extends Gig // For different pricing tiers depending on the complexity of the gig
 
 <b>Current problem faced</b>
