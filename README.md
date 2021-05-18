@@ -52,8 +52,8 @@ yarn build // builds the app for production to the build folder
   - [ ] Reviews
 - [ ] Marketplace
   - [ ] Explore new gig postings
-  - [ ] Category page
-  - [ ] Sub category page
+  - [x] Category page
+  - [x] Sub category page
   - [ ] Searching of gigs
   - [ ] Filtering of gigs
 - [ ] User Profile
@@ -77,10 +77,10 @@ yarn build // builds the app for production to the build folder
 
 <b>Backend</b>
 - [ ] Database needed
-  - [ ] User (username, email, password, bio, erdaddr, emailVerified)
-  - [ ] Category (name, imageUrl)
-  - [ ] SubCategory extends Category (name, categoryId, imageUrl?)
-  - [ ] Gig extends SubCategory (title, price, subCategoryId, description, sellerId)
+  - [x] User (username, email, password, bio, erdaddr, emailVerified)
+  - [x] Category (name, imageUrl)
+  - [x] SubCategory extends Category (name, categoryId, imageUrl?)
+  - [x] Gig extends SubCategory (title, price, subCategoryId, description, sellerId)
   - [ ] Order extends Gig (gigId, buyerId, sellerId, txHash, status)
 
 - [ ] Addition Database

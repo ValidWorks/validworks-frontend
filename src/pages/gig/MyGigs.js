@@ -9,7 +9,7 @@ const MyGigs = () => {
   const currentUser = moralis.User.current()
   const sellerId = currentUser.id
 
-  const [gigs, setGigs] = useState()
+  const [gigs, setGigs] = useState([])
 
   useEffect(() => {
     try {
@@ -24,13 +24,17 @@ const MyGigs = () => {
   }, [sellerId])
 
   let cards = ""
-  if (gigs) {
+  if (gigs && gigs.length > 0) {
     cards = (
       <CardColumns>
-        {gigs.map((gig) => (
-          <GigCard gig={gig} />
+        {gigs.map((gig, index) => (
+          <GigCard key={index} gig={gig} />
         ))}
       </CardColumns>
+    )
+  } else {
+    cards = (
+      <h2>You have not listed any gigs yet. List one now?</h2>
     )
   }
   

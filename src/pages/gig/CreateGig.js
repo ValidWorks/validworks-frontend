@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Alert, Button, CloseButton, Form, Row, Col } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import moralis from 'moralis'
 
 import { createNewGig } from '../../utils/GigUtils'
+import { getAllGigSubCategories } from '../../utils/MarketPlaceUtils'
 
 const CreateGig = () => {
   const currentUser = moralis.User.current()
@@ -16,8 +17,21 @@ const CreateGig = () => {
   const [category, setCategory] = useState('')
   const [desc, setDesc] = useState('')
   const [addGigStatus, setAddGigStatus] = useState('idle')
+  const [subs, setSubs] = useState([])
 
   const history = useHistory()
+
+  useEffect(() => {
+    try {
+      getAllGigSubCategories()
+        .then(s => {
+          console.log("Sub categories retrieved", s)
+          setSubs(s)
+        })
+    } catch (err) {
+      console.log("Error retrieving gig", err)
+    }
+  }, [])
 
   const onCreateNewGig = (event) => {
     event.preventDefault()
@@ -76,7 +90,9 @@ const CreateGig = () => {
         <Form.Group>
           <Form.Label>Category</Form.Label>
           <Form.Control as="select" value={category} onChange={(e) => setCategory(e.target.value)}>
-            <option>Web development</option>
+            {subs.map((sub, index) => (
+              <option key={index}>{sub.getTitle()}</option>
+            ))}
           </Form.Control>
         </Form.Group>
         <Form.Group>

@@ -13,7 +13,8 @@ const Explore = ()  => {
 
   return (
     <div>
-      <h2>You are in the explore page.</h2>
+      <h2>Explore</h2>
+      <hr/>
       <Categories />
     </div>
   )

@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 
 import { editGig, selectGigById } from '../../utils/GigUtils'
-import { getGigCategories } from '../../utils/MarketPlaceUtils'
+import { getAllGigSubCategories } from '../../utils/MarketPlaceUtils'
 
 const EditGig = ({ match }) => {
   const { gigId } = match.params
@@ -13,6 +13,7 @@ const EditGig = ({ match }) => {
   const [category, setCategory] = useState('')
   const [desc, setDesc] = useState('')
   const [gig, setGig] = useState()
+  const [subs, setSubs] = useState()
 
   const history = useHistory()
 
@@ -26,6 +27,11 @@ const EditGig = ({ match }) => {
           setPrice(gig.getPrice())
           setCategory(gig.getCategory())
           setDesc(gig.getDesc())
+        })
+      getAllGigSubCategories()
+        .then(s => {
+          console.log("Sub categories retrieved", s)
+          setSubs(s)
         })
     } catch (err) {
       console.log("Error retrieving gig", err)
@@ -55,8 +61,6 @@ const EditGig = ({ match }) => {
     }
   }
 
-  const categories = getGigCategories()
-
   return (
     <div>
       <Form onSubmit={onEditGig}>
@@ -73,10 +77,9 @@ const EditGig = ({ match }) => {
         <Form.Group>
           <Form.Label>Category</Form.Label>
           <Form.Control as="select" value={category} onChange={(e) => setCategory(e.target.value)}>
-            <option>Web Development</option>
-            {/* {categories.map(cat => {
-              return (<option>{cat}</option>)
-            })} */}
+            {subs.map((sub, index) => (
+              <option key={index}>{sub.getTitle()}</option>
+            ))}
           </Form.Control>
         </Form.Group>
 
