@@ -28,4 +28,8 @@ const getErdAddrByUserId = async (userId) => {
   return erdAddr
 }
 
-export { getProfilePhotoUrl, updateProfile, getErdAddrByUserId }
+const getErdAddrByUser = (user) => {
+  return user.get("erdAddress")
+}
+
+export { getProfilePhotoUrl, updateProfile, getErdAddrByUserId, getErdAddrByUser }

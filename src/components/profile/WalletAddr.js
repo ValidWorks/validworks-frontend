@@ -1,11 +1,15 @@
-import moralis from 'moralis'
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, ListGroup, ListGroupItem } from 'react-bootstrap'
+import moralis from 'moralis'
 
-const WalletAddr = (user) => {
+import { getErdAddrByUser } from '../../utils/UserUtils'
+
+const WalletAddr = ({user}) => {
+  const erdAddr = getErdAddrByUser(user)
 
   const onAddAddr = async (event) => {
     try {
+      console.log(moralis.ERD)
       moralis.ERD.link()
     } catch (error) {
       console.error("Error linking elrond wallet: ", error)
@@ -34,28 +38,27 @@ const WalletAddr = (user) => {
 
   let addr = ""
   console.log("User", user)
-  if (user.attributes.erdAddress) {
-    const erdAddress = user.attributes.erdAddress
+  if (erdAddr) {
     addr = (
-      <li>
-        <Button variant="danger" onClick={onUnlinkAddr} data-addr={erdAddress}>X</Button>
-        {erdAddress}
-      </li>
+      <ListGroupItem>
+        <Button variant="danger" onClick={onUnlinkAddr} data-addr={erdAddr}>X</Button>
+        {erdAddr}
+      </ListGroupItem>
     )
   } else {
     addr = (
-      <li>
-        <Button variant="primary" onClick={onAddAddr}>Link</Button>
-      </li>
+      <ListGroupItem>
+        <Button variant="primary" onClick={onAddAddr}>Link Wallet</Button>
+      </ListGroupItem>
     )
   }
 
   return (
     <div>
-      <h3>Linked Addresses</h3>
-      <ul>
+      <p>Linked Addresses</p>
+      <ListGroup>
         {addr}
-      </ul>
+      </ListGroup>
     </div>
   )
 }

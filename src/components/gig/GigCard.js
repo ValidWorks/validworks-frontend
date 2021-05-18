@@ -9,14 +9,17 @@ const GigCard = ({gig}) => {
   const thumbnailUrl = gig.getThumbnail().url()
 
   return (
-    <Card className="mb-4 box-shadow">
+    <Card className="mb-4 box-shadow" style={{ width: '18rem' }}>
       <Card.Img variant="top" src={thumbnailUrl} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Subtitle class="mb-2 text-muted">Price: {price}</Card.Subtitle>
         <Card.Text>{category}</Card.Text>
-        <a href={`/gig/view/${id}`} class="stretched-link"></a>
       </Card.Body>
+      <Card.Footer>
+        <small className="text-muted">Posted 1 day ago</small>
+      </Card.Footer>
+      <a href={`/gig/view/${id}`} class="stretched-link"></a>
     </Card>
   )
 }

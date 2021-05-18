@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { Alert, Button, CloseButton, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
+import moralis from 'moralis'
 
-const Moralis = require('moralis')
+// const Moralis = require('moralis')
 
 const Login = () => {
   const history = useHistory()
@@ -14,7 +15,7 @@ const Login = () => {
   const onLogin = (event) => {
     event.preventDefault()
 
-    Moralis.User.logIn(username, password)
+    moralis.User.logIn(username, password)
       .then(() => {
         setErrorMsg('')
         history.push('/explore')
@@ -49,7 +50,7 @@ const Login = () => {
         <Button type="submit">Login</Button>
       </Form>
 
-      <small class="text-muted">
+      <small className="text-muted">
         Don&apos;t yet have an account? 
         <a href="/auth/signup"> Sign Up</a>
       </small>

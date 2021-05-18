@@ -61,7 +61,7 @@ yarn build // builds the app for production to the build folder
   - [ ] Linking elrond wallet to the account
   - [x] Edit Profile
   - [x] Uploading of profile photo using IPFS
-  - [ ] View Profile
+  - [x] View Profile
   - [ ] User ACL (only allow the editing of the profile by the current authenticated user)
   - [ ] Password reset when the user forgets the password
 - [ ] Gig page
@@ -77,12 +77,14 @@ yarn build // builds the app for production to the build folder
 
 <b>Backend</b>
 - [ ] Database needed
-  - [ ] User (username, email, password, erdaddr, emailVerified)
+  - [ ] User (username, email, password, bio, erdaddr, emailVerified)
   - [ ] Category (name, imageUrl)
   - [ ] SubCategory extends Category (name, categoryId, imageUrl?)
   - [ ] Gig extends SubCategory (title, price, subCategoryId, description, sellerId)
   - [ ] Order extends Gig (gigId, buyerId, sellerId, txHash, status)
-  - [ ] Pricing extends Gig (tentative) // For different pricing tiers depending on the complexity of the gig
+
+- Addition Database
+  - [ ] Pricing extends Gig // For different pricing tiers depending on the complexity of the gig
 
 <b>Current problem faced</b>
 - [x] Redirection through a promise

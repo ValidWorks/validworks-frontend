@@ -10,8 +10,8 @@ import ChangePassword from '../../components/profile/ChangePassword'
 const UpdateProfile = () => {
   const currentUser = moralis.User.current()
 
-  const [username, setUsername] = useState(currentUser.username)
-  const [email, setEmail] = useState(currentUser.email)
+  const [username, setUsername] = useState(currentUser.get("username"))
+  const [email, setEmail] = useState(currentUser.get("email"))
   const [profilePhoto, setProfilePhoto] = useState(null)
 
   const history = useHistory()
@@ -27,7 +27,10 @@ const UpdateProfile = () => {
 
     if (canUpdate) {
       try {
-        const moralisProfile = new moralis.File(profilePhoto.name, profilePhoto)
+        let moralisProfile = currentUser.get("profilePhoto")
+        if (profilePhoto) {
+          moralisProfile = new moralis.File(profilePhoto.name, profilePhoto)
+        }
 
         updateProfile(currentUser, username, email, moralisProfile)
           .then(() => {
@@ -42,9 +45,7 @@ const UpdateProfile = () => {
 
   return (
     <div>
-      <h2>
-        You are at the Update Profile page
-      </h2>
+      <h2>Update User Profile</h2>
 
       <br/>
 
@@ -63,11 +64,15 @@ const UpdateProfile = () => {
             We'll never share your email with anyone else.
           </Form.Text>
         </Form.Group>
-        <ChangePassword />
-        {/* <WalletAddr user={currentUser} /> */}
-        <br/>
         <Button type="submit" disabled={!canUpdate}>Save Changes</Button>
       </Form>
+
+      <br/>
+      <ChangePassword />
+      <br/>
+      <WalletAddr user={currentUser} />
+      <br/>
+      
     </div>
   )
 }

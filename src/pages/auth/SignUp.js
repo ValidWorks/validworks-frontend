@@ -1,8 +1,7 @@
 import { useState } from "react"
 import { Alert, Button, CloseButton, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
-
-const Moralis = require('moralis')
+import moralis from 'moralis'
 
 const SignUp = () => {
   const history = useHistory()
@@ -15,7 +14,7 @@ const SignUp = () => {
   const onSignUp = (event) => {
     event.preventDefault()
 
-    const user = new Moralis.User();
+    const user = new moralis.User();
     user.set("username", username);
     user.set("password", password);
     user.set("email", email);

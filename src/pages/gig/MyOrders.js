@@ -18,7 +18,7 @@ const MyOrders = () => {
     } catch (err) {
       console.log("Error retrieving gig", err)
     }
-  }, [])
+  }, [buyerId])
 
   let cards = ""
   if (gigs) {

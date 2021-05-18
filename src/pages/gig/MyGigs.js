@@ -21,7 +21,7 @@ const MyGigs = () => {
     } catch (err) {
       console.log("Error retrieving gig", err)
     }
-  }, [])
+  }, [sellerId])
 
   let cards = ""
   if (gigs) {
@@ -36,9 +36,6 @@ const MyGigs = () => {
   
   return (
     <div>
-      <h2>
-        You are at the My gigs page
-      </h2>
       {cards}
     </div>
     

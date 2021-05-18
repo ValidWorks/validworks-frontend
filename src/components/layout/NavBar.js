@@ -1,12 +1,38 @@
-import Button from 'react-bootstrap/Button'
-import { Navbar as BsNavbar, Nav, NavbarBrand, Form, FormControl } from 'react-bootstrap'
-
-// import { useMoralis } from 'react-moralis'
+import { useState } from 'react'
+import { Button, Navbar as BsNavbar, Nav, NavbarBrand, Form, FormControl, NavDropdown } from 'react-bootstrap'
+import { useHistory } from 'react-router'
 import moralis from 'moralis'
 
 const Navbar = () => {
-  // eslint-disable-next-line no-unused-vars
-  const currentUser = moralis.User.current()
+  const history = useHistory()
+
+  const [currentUser, setCurrentUser] = useState(moralis.User.current())
+
+  const onLogout = (event) => {
+    moralis.User.logOut().then(() => {
+      setCurrentUser(moralis.User.current())
+      history.push('/')
+    })
+  }
+
+  const loggedInItems = (
+    <NavDropdown title="Account">
+      <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+      <NavDropdown.Divider />
+      <NavDropdown.Item href="/gig/create">Create Gig</NavDropdown.Item>
+      <NavDropdown.Item href="/gig/my_orders">My Orders</NavDropdown.Item>
+      <NavDropdown.Item href="/gig/my_gigs">My Gigs</NavDropdown.Item>
+      <NavDropdown.Divider />
+      {/* <NavDropdown.Item href="/auth/logout">Logout</NavDropdown.Item> */}
+      <NavDropdown.Item><Button onClick={onLogout}>Logout</Button></NavDropdown.Item>
+    </NavDropdown>
+  )
+
+  const loggedOutItems = (
+    <Nav.Item>
+      <Nav.Link href="/auth">Sign In</Nav.Link>
+    </Nav.Item>
+  )
 
   return (
     <BsNavbar className="bg-white border-bottom px-4 py-3">
@@ -26,19 +52,7 @@ const Navbar = () => {
           </Form>
 
           <Nav.Link href="/explore">Explore</Nav.Link>
-          { currentUser && <Nav.Link href="/gig/my_orders">My Orders</Nav.Link> }
-          { currentUser && <Nav.Link href="/gig/my_gigs">My Gigs</Nav.Link> }
-          { currentUser && <Nav.Link href="/gig/create">Create Gig</Nav.Link> }
-          { currentUser && <Nav.Link href="/profile">Profile</Nav.Link> }
-          
-          <Nav.Item>
-            { currentUser 
-              ? <Button onClick={() => moralis.User.logOut().then(() => {
-                  const currentUser = moralis.User.current()
-                })}>Logout</Button>
-              : <Nav.Link href="/auth">Sign In</Nav.Link>
-            }
-          </Nav.Item>
+          { currentUser ? loggedInItems : loggedOutItems }
         </Nav>
       </div>
     </BsNavbar>
