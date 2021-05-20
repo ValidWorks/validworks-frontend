@@ -1,12 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Navbar as BsNavbar, Nav, NavbarBrand, Form, FormControl, NavDropdown } from 'react-bootstrap'
-import { useHistory } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 import moralis from 'moralis'
 
 const Navbar = () => {
   const history = useHistory()
+  const location = useLocation()
 
   const [currentUser, setCurrentUser] = useState(moralis.User.current())
+
+  useEffect(() => {
+    setCurrentUser(moralis.User.current())
+  }, [location])
 
   const onLogout = (event) => {
     moralis.User.logOut().then(() => {
