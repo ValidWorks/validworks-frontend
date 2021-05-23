@@ -1,33 +1,40 @@
-import moralis from 'moralis'
+import moralis from "moralis";
 
-export const getProfilePhotoUrl = async (userId) => {
+const getProfilePhotoUrl = async (userId) => {
   const query = new moralis.Query(moralis.User);
   const result = await query.get(userId);
   const profilePhotoUrl = result.then((user) => {
-    return user.get("profilePhoto")
-  })
+    return user.get("profilePhoto");
+  });
 
-  return profilePhotoUrl
-}
+  return profilePhotoUrl;
+};
 
-export const updateProfile = async (user, username, email, profilePhoto) => {
-  user.setUsername(username)
-  user.set("email", email)
-  user.set("profilePhoto", profilePhoto)
+const updateProfile = async (user, username, email, profilePhoto) => {
+  user.setUsername(username);
+  user.set("email", email);
+  user.set("profilePhoto", profilePhoto);
 
-  await user.save()
-}
+  await user.save();
+};
 
-export const getErdAddrByUserId = async (userId) => {
+const getErdAddrByUserId = async (userId) => {
   const query = new moralis.Query(moralis.User);
-  const result = query.get(userId);
+  const result = await query.get(userId);
   const erdAddr = result.then((user) => {
-    return user.get("erdAddress")
-  })
+    return user.get("erdAddress");
+  });
 
-  return erdAddr
-}
+  return erdAddr;
+};
 
-export const getErdAddrByUser = (user) => {
-  return user.get("erdAddress")
-}
+const getErdAddrByUser = (user) => {
+  return user.get("erdAddress");
+};
+
+export {
+  getProfilePhotoUrl,
+  updateProfile,
+  getErdAddrByUserId,
+  getErdAddrByUser,
+};

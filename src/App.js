@@ -1,15 +1,11 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import Layout from './components/layout/Layout';
-import './App.css';
-import About from './pages/About';
-import Explore from './pages/marketplace/Explore';
-import Auth from './pages/auth/Auth';
-import Gig from './pages/gig/Gig';
-import Profile from './pages/profile/Profile'
-import Marketplace from './pages/marketplace/Marketplace';
-import Admin from './pages/admin/Admin';
+import Layout from "./components/layout/Layout";
+import "./App.css";
+import About from "./pages/About";
+
+import Gig from "./pages/gig/Gig";
 
 const App = () => {
   // Load erdjs script for Elrond login
@@ -28,17 +24,12 @@ const App = () => {
     <Router>
       <Layout>
         <Switch>
-          <Route exact path='/' component={About}/>
-          <Route path='/admin' component={Admin}/>
-          <Route path='/explore' component={Explore}/>
-          <Route path='/categories' component={Marketplace}/>
-          <Route path='/auth' component={Auth}/>
-          <Route path='/gig' component={Gig}/>
-          <Route path='/profile' component={Profile}/>
+          <Route exact path='/' component={About} />
+          <Route path='/gig' component={Gig} />
         </Switch>
       </Layout>
     </Router>
   );
-}
+};
 
 export default App;

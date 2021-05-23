@@ -1,5 +1,4 @@
 import {
-  SmartContract,
   ProxyProvider,
   Address,
   Account,
@@ -7,7 +6,7 @@ import {
   HWProvider,
   Transaction,
   AddressValue,
-} from "@elrondnetwork/erdjs"
+} from "@elrondnetwork/erdjs";
 
 // Change network (test/dev/main)
 const proxyProvider = new ProxyProvider("https://testnet-gateway.elrond.com");

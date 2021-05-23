@@ -1,10 +1,22 @@
-
+import GigCarousel from "../components/gig/GigCarousel";
+import OrderCarousel from "../components/gig/OrderCarousel";
+import ExploreCarousel from "../components/gig/ExploreCarousel";
+import { useMoralis } from "react-moralis";
 function About() {
+  const { isAuthenticated } = useMoralis();
   return (
     <div>
-      <h2>Connect with freelancers from around the world to cater to your every need</h2>
+      <div style={{ marginTop: "50px" }}>
+        {isAuthenticated ? <GigCarousel /> : <div />}
+      </div>
+      <div style={{ marginTop: "50px" }}>
+        {isAuthenticated ? <OrderCarousel /> : <div />}
+      </div>
+      <div style={{ marginTop: "50px" }}>
+        <ExploreCarousel />
+      </div>
     </div>
   );
-};
+}
 
 export default About;

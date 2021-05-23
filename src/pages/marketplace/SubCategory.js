@@ -19,7 +19,7 @@ const SubCategories = (props) => {
     } catch (err) {
       console.error("Error retrieving subcategories", err)
     }
-  }, [cat])
+  }, [])
 
   let cards = ""
   if (subs && subs.length > 0) {
