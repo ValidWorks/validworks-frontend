@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Col, Form, Row } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 
 import { editGig, selectGigById } from '../../utils/GigUtils'
@@ -10,10 +10,11 @@ const EditGig = ({ match }) => {
 
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
+  const [deliveryTime, setDeliveryTime] = useState('')
   const [category, setCategory] = useState('')
   const [desc, setDesc] = useState('')
   const [gig, setGig] = useState()
-  const [subs, setSubs] = useState()
+  const [subs, setSubs] = useState([])
 
   const history = useHistory()
 
@@ -25,6 +26,7 @@ const EditGig = ({ match }) => {
           setGig(gig)
           setTitle(gig.getTitle())
           setPrice(gig.getPrice())
+          setDeliveryTime(gig.getDeliveryTime())
           setCategory(gig.getCategory())
           setDesc(gig.getDesc())
         })
@@ -46,18 +48,16 @@ const EditGig = ({ match }) => {
   }
 
   const onEditGig = (event) => {
-    event.preventDefault()
-
-    if (title && price && category) {
-      try {
-        editGig(gigId, title, price, category, desc)
-          .then(() => {
-            console.log("Gig successfully updated.")
-            history.push(`/gig/view/${gigId}`)
-          })
-      } catch (err) {
-        console.error('Failed to edit Gig: ', err)
-      }
+    console.log(title, price)
+    try {
+      console.log("try")
+      editGig(gigId, title, price, deliveryTime, category, desc)
+        .then(() => {
+          console.log("Gig successfully updated.")
+          history.push(`/gig/view/${gigId}`)
+        })
+    } catch (err) {
+      console.error('Failed to edit Gig: ', err)
     }
   }
 
@@ -75,10 +75,22 @@ const EditGig = ({ match }) => {
         </Form.Group>
 
         <Form.Group>
+          <Form.Label>Delivery Time</Form.Label>
+          <Row>
+            <Col>
+              <Form.Control type="number" placeholder="10" value={deliveryTime} onChange={(e) => setDeliveryTime(e.target.value)}/>
+            </Col>
+            <Col>
+              <Form.Label>Days</Form.Label>
+            </Col>
+          </Row>
+        </Form.Group>
+
+        <Form.Group>
           <Form.Label>Category</Form.Label>
           <Form.Control as="select" value={category} onChange={(e) => setCategory(e.target.value)}>
             {subs.map((sub, index) => (
-              <option key={index}>{sub.getTitle()}</option>
+              <option key={index} value={sub.getCategory()}>{sub.getTitle()}</option>
             ))}
           </Form.Control>
         </Form.Group>

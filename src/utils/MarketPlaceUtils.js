@@ -31,7 +31,7 @@ const SubCategory = moralis.Object.extend("SubCategory", {
 })
 
 // Functions
-const initCategories = async () => {
+export const initCategories = async () => {
   const cats = Object.keys(GIG_CATEGORIES)
 
   for (let cat of cats) {
@@ -44,7 +44,7 @@ const initCategories = async () => {
   }
 }
 
-const initSubCategories = async () => {
+export const initSubCategories = async () => {
   const cats = Object.keys(GIG_CATEGORIES)
 
   for (let cat of cats) {
@@ -60,11 +60,11 @@ const initSubCategories = async () => {
   }
 }
 
-const getListings = () => {
+export const getListings = () => {
 
 }
 
-const getGigCategories = async () => {
+export const getGigCategories = async () => {
   const catQuery = new moralis.Query(Category)
   catQuery.limit(10)
   const results = await catQuery.find()
@@ -72,7 +72,7 @@ const getGigCategories = async () => {
   return results
 }
 
-const getGigSubCategories = async (cat) => {
+export const getGigSubCategories = async (cat) => {
   const subQuery = new moralis.Query(SubCategory)
   subQuery.equalTo("category", cat)
   const results = await subQuery.find()
@@ -80,12 +80,10 @@ const getGigSubCategories = async (cat) => {
   return results
 }
 
-const getAllGigSubCategories = async (cat) => {
+export const getAllGigSubCategories = async (cat) => {
   const subQuery = new moralis.Query(SubCategory)
   subQuery.limit(100)
   const results = await subQuery.find()
   
   return results
 }
-
-export { initCategories, initSubCategories, getListings, getGigCategories, getGigSubCategories, getAllGigSubCategories }

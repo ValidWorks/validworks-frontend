@@ -1,4 +1,6 @@
 import moralis from 'moralis'
+import GigContract from '../contract/GigContract'
+
 import { getErdAddrByUserId } from './UserUtils'
 
 // Database Objects
@@ -14,6 +16,9 @@ const Gig = moralis.Object.extend("Gig", {
   },
   getPrice: function() {
     return this.get('price').toString()
+  },
+  getDeliveryTime: function() {
+    return this.get('deliveryTime').toString()
   },
   getSellerId: function() {
     return this.get('sellerId').toString()
@@ -48,41 +53,66 @@ const Order = moralis.Object.extend("Order", {
 })
 
 // Functions
-const createNewGig = async (thumbnail, title, price, category, description, sellerId) => {
+export const createNewGig = async (thumbnail, title, price, deliveryTime, category, description, sellerId) => {
   const newGig = new Gig()
   
   newGig.set("thumbnail", thumbnail)
   newGig.set("title", title.toString())
   newGig.set("price", parseFloat(price))
+  newGig.set("deliveryTime", parseFloat(deliveryTime))
   newGig.set("description", description.toString())
   newGig.set("category", category.toString())
   newGig.set("sellerId", sellerId.toString())
+  newGig.set("status", "created")
 
   const gig = await newGig.save()
 
+  // List the gig on chain
+  const erdAddr = await getErdAddrByUserId(sellerId)
+  console.log(erdAddr)
+  const contract = new GigContract(erdAddr, gig.id)
+  await contract.sync()
+  contract.listGig(deliveryTime, price)
+    .then((reply) => {
+      console.log(reply.getHash().hash)
+      gig.set("status", "listed")
+      return gig.save()
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  
   return gig
 }
 
-const editGig = async (gigId, title, price, category, description) => {
+export const editGig = async (gigId, title, price, deliveryTime, category, description) => {
   const gigQuery = new moralis.Query(Gig)
   const existingGig = await gigQuery.get(gigId)
-  existingGig
-    .then((gig) => {
+  console.log("hi")
+  const result = existingGig.then((gig) => {
       console.log("Gig was retrieved successfully")
       gig.set("title", title)
       gig.set("price", price)
+      gig.set("deliveryTime", deliveryTime)
       gig.set("description", description)
       gig.set("category", category)
+      return gig.save()
     }, (error) => {
       console.log("Failed to retrieve Gig, with the error: ", error.message)
     })
+  
+  return result 
 }
 
-const orderGig = async (gigId, buyerId, sellerId) => {
+export const orderGig = async (gigId, buyerId, sellerId) => {
   // Find the seller address using the seller id
-  const sellerErdAddr = getErdAddrByUserId(sellerId)
+  const sellerErdAddr = await getErdAddrByUserId(sellerId)
+  const price = selectGigById(gigId).then(gig => gig.getPrice())
 
   // order the gig onchain using erdjs
+  const contract = new GigContract()
+  await contract.sync()
+  await contract.orderGig(sellerErdAddr, price)
 
   // get the status of the order using the elrond api
   const txHash = ""
@@ -102,7 +132,7 @@ const orderGig = async (gigId, buyerId, sellerId) => {
   return order
 }
 
-const selectGigById = async (gigId) => {
+export const selectGigById = async (gigId) => {
   const gigQuery = new moralis.Query(Gig)
   try {
     const result = await gigQuery.get(gigId)
@@ -112,7 +142,7 @@ const selectGigById = async (gigId) => {
   }
 }
 
-const selectGigsByBuyerId = async (buyerId) => {
+export const selectGigsByBuyerId = async (buyerId) => {
   // Buyer orders from the Order database
   // TODO: Should set ACL to only allow the buyer to query his own orders
   const orderQuery = new moralis.Query(Order)
@@ -122,7 +152,7 @@ const selectGigsByBuyerId = async (buyerId) => {
   return results
 }
 
-const selectGigsBySellerId = async (sellerId) => {
+export const selectGigsBySellerId = async (sellerId) => {
   // Seller listings from the Gig database
   const gigQuery = new moralis.Query(Gig)
   gigQuery.equalTo("sellerId", sellerId)
@@ -130,5 +160,3 @@ const selectGigsBySellerId = async (sellerId) => {
 
   return results
 }
-
-export { createNewGig, editGig, orderGig, selectGigById, selectGigsByBuyerId, selectGigsBySellerId }

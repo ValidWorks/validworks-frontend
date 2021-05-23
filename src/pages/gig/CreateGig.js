@@ -41,7 +41,7 @@ const CreateGig = () => {
         setAddGigStatus('pending')
         
         const moralisThumbnail = new moralis.File(thumbnail.name, thumbnail)
-        createNewGig(moralisThumbnail, title, price, category, desc, sellerId)
+        createNewGig(moralisThumbnail, title, price, deliveryTime, category, desc, sellerId)
           .then((gig) => {
             console.log("New Gig created with the gigId: ", gig.id)
             history.push(`/gig/view/${gig.id}`)
