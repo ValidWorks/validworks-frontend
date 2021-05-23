@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
+import moralis from "moralis";
 
 const GigCard = ({ gig }) => {
   const history = useHistory();
@@ -54,23 +55,3 @@ const GigCard = ({ gig }) => {
 };
 
 export default GigCard;
-/*    <div class='card'>
-      <img src={thumbnailUrl} alt='Avatar' style='width:100%' />
-      <div class='container'>
-        <h4>
-          <b>{title}</b>
-        </h4>
-        <p>{price}</p>
-      </div>
-    </div>
-    <Card border='light' style={{ width: "18rem" }}>
-      <Card.Img variant='top' src={thumbnailUrl} />
-      <Card.Body>
-        <Card.Title>{title}</Card.Title>
-        <Card.Subtitle className='mb-2 text-muted'>
-          Price: {price}
-        </Card.Subtitle>
-      </Card.Body>
-      <a href={`/gig/view/${id}`} className='stretched-link'></a>
-    </Card>
-*/

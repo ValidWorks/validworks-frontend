@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useMoralis } from "react-moralis";
 
 import { createNewGig } from "../utils/GigUtils";
+import { sellerList } from "../utils/ErdjsUtils";
 
 const CreateGig = () => {
   const [thumbnail, setThumbnail] = useState(null);
@@ -19,6 +20,10 @@ const CreateGig = () => {
 
   const onCreateNewGig = (event) => {
     event.preventDefault();
+
+    // Convert delivery time (in days) to nonce
+    let deliveryNonce = deliveryTime * 8640;
+    sellerList(user.get("erdAddress"), 1, deliveryNonce, price);
 
     if (addGigStatus === "idle") {
       try {

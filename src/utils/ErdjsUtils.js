@@ -1,15 +1,25 @@
 import {
+  ContractCallPayloadBuilder,
   ProxyProvider,
   Address,
+  HWProvider,
   Account,
   Balance,
-  HWProvider,
   Transaction,
+  U64Value,
+  BigUIntValue,
+  ContractFunction,
   AddressValue,
+  GasLimit,
 } from "@elrondnetwork/erdjs";
 
+import BigNumber from "bignumber.js";
+
 // Change network (test/dev/main)
-const proxyProvider = new ProxyProvider("https://testnet-gateway.elrond.com");
+const proxyProvider = new ProxyProvider(
+  "https://testnet-gateway.elrond.com",
+  10000
+);
 // Ledger integration
 const hwWalletP = new HWProvider(proxyProvider);
 const smartContractAddress = new Address(
@@ -22,9 +32,9 @@ const smartContractAddress = new Address(
 @param deadline: number
 @param price (in eGLD): number 
 */
-const seller_list = async (caller_address, gig_id, deadline, price) => {
+const sellerList = async (caller_address, gig_id, deadline, price) => {
   // SYNC NONCE
-  caller = new Account(new Address(caller_address));
+  let caller = new Account(new Address(caller_address));
   await caller.sync(proxyProvider);
   // LOAD PAYLOAD
   let payload_builder = new ContractCallPayloadBuilder();
@@ -58,9 +68,9 @@ const seller_list = async (caller_address, gig_id, deadline, price) => {
 @param caller_address: String
 @param gig_id: number
 */
-const seller_unlist = async (caller_address, gig_id) => {
+const sellerUnlist = async (caller_address, gig_id) => {
   // SYNC NONCE
-  caller = new Account(new Address(caller_address));
+  let caller = new Account(new Address(caller_address));
   await caller.sync(proxyProvider);
   // LOAD PAYLOAD
   let payload_builder = new ContractCallPayloadBuilder();
@@ -90,9 +100,9 @@ const seller_unlist = async (caller_address, gig_id) => {
 @param caller_address: String
 @param gig_id: number
 */
-const seller_deliver = async (caller_address, gig_id) => {
+const sellerDeliver = async (caller_address, gig_id) => {
   // SYNC NONCE
-  caller = new Account(new Address(caller_address));
+  let caller = new Account(new Address(caller_address));
   await caller.sync(proxyProvider);
   // LOAD PAYLOAD
   let payload_builder = new ContractCallPayloadBuilder();
@@ -122,9 +132,9 @@ const seller_deliver = async (caller_address, gig_id) => {
 @param caller_address: String
 @param gig_id: number
 */
-const seller_claim = async (caller_address, gig_id) => {
+const sellerClaim = async (caller_address, gig_id) => {
   // SYNC NONCE
-  caller = new Account(new Address(caller_address));
+  let caller = new Account(new Address(caller_address));
   await caller.sync(proxyProvider);
   // LOAD PAYLOAD
   let payload_builder = new ContractCallPayloadBuilder();
@@ -156,9 +166,9 @@ const seller_claim = async (caller_address, gig_id) => {
 @param seller_address: String
 @param payment: String
 */
-const buyer_order = async (caller_address, gig_id, seller_address, payment) => {
+const buyerOrder = async (caller_address, gig_id, seller_address, payment) => {
   // SYNC NONCE
-  caller = new Account(new Address(caller_address));
+  let caller = new Account(new Address(caller_address));
   await caller.sync(proxyProvider);
   // LOAD PAYLOAD
   let payload_builder = new ContractCallPayloadBuilder();
@@ -191,9 +201,9 @@ const buyer_order = async (caller_address, gig_id, seller_address, payment) => {
 @param gig_id: number
 @param seller_address: String
 */
-const buyer_refund = async (caller_address, gig_id, seller_address) => {
+const buyerRefund = async (caller_address, gig_id, seller_address) => {
   // SYNC NONCE
-  caller = new Account(new Address(caller_address));
+  let caller = new Account(new Address(caller_address));
   await caller.sync(proxyProvider);
   // LOAD PAYLOAD
   let payload_builder = new ContractCallPayloadBuilder();
@@ -225,9 +235,9 @@ const buyer_refund = async (caller_address, gig_id, seller_address) => {
 @param gig_id: number
 @param seller_address: String
 */
-const buyer_dispute = async (caller_address, gig_id, seller_address) => {
+const buyerDispute = async (caller_address, gig_id, seller_address) => {
   // SYNC NONCE
-  caller = new Account(new Address(caller_address));
+  let caller = new Account(new Address(caller_address));
   await caller.sync(proxyProvider);
   // LOAD PAYLOAD
   let payload_builder = new ContractCallPayloadBuilder();
@@ -259,9 +269,9 @@ const buyer_dispute = async (caller_address, gig_id, seller_address) => {
 @param gig_id: number
 @param seller_address: String
 */
-const buyer_accept = async (caller_address, gig_id, seller_address) => {
+const buyerAccept = async (caller_address, gig_id, seller_address) => {
   // SYNC NONCE
-  caller = new Account(new Address(caller_address));
+  let caller = new Account(new Address(caller_address));
   await caller.sync(proxyProvider);
   // LOAD PAYLOAD
   let payload_builder = new ContractCallPayloadBuilder();
@@ -287,3 +297,5 @@ const buyer_accept = async (caller_address, gig_id, seller_address) => {
       console.warn(err);
     });
 };
+
+export { sellerList };

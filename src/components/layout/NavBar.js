@@ -46,7 +46,7 @@ const Navbar = () => {
       "..." +
       address.substring(address.length - 4, address.length);
     if (!user.get("email")) {
-      if (show != true) {
+      if (show !== true) {
         handleShow();
       }
     }

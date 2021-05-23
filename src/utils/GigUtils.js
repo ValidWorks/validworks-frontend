@@ -66,7 +66,6 @@ const createNewGig = async (thumbnail, title, price, description, sellerId) => {
   newGig.set("price", parseFloat(price));
   newGig.set("description", description.toString());
   newGig.set("sellerId", sellerId.toString());
-  newGig.set("status", "Open");
 
   const gig = await newGig.save();
 
