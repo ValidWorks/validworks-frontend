@@ -5,7 +5,7 @@ import Layout from "./components/layout/Layout";
 import "./App.css";
 import About from "./pages/About";
 
-import Gig from "./pages/gig/Gig";
+import Gig from "./pages/Gig";
 
 const App = () => {
   // Load erdjs script for Elrond login

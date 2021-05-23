@@ -2,10 +2,9 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 import CreateGig from "./CreateGig";
-
 import ViewGig from "./ViewGig";
-import OrderGig from "./OrderGig";
-import OrderSuccess from "./OrderSuccess";
+import OrderGig from "./gig/OrderGig";
+import OrderSuccess from "./gig/OrderSuccess";
 
 const Gig = () => {
   return (

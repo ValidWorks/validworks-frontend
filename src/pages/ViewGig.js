@@ -1,10 +1,8 @@
-import { TimeToLeaveSharp } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useMoralis } from "react-moralis";
 // import TimeAgo from '../../components/gig/TimeAgo'
-import { selectGigById } from "../../utils/GigUtils";
+import { selectGigById } from "../utils/GigUtils";
 
 const ViewGig = (props) => {
   const { isAuthenticated, user } = useMoralis();

@@ -6,7 +6,6 @@ import "slick-carousel/slick/slick-theme.css";
 import GigCard from "./GigCard";
 
 import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
 import { listGigs } from "../../utils/GigUtils";
 
 import { ArrowBackIos, ArrowForwardIos } from "@material-ui/icons";

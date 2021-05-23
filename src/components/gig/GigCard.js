@@ -1,8 +1,4 @@
 import React from "react";
-import { Card } from "react-bootstrap";
-import ViewGig from "../../pages/gig/ViewGig";
-import { useState } from "react";
-import { Modal } from "react-bootstrap";
 import { useHistory } from "react-router";
 
 const GigCard = ({ gig }) => {

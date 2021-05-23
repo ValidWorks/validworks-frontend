@@ -3,34 +3,19 @@ import { Alert, Button, CloseButton, Form, Row, Col } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { useMoralis } from "react-moralis";
 
-import { createNewGig } from "../../utils/GigUtils";
-import { getAllGigSubCategories } from "../../utils/MarketPlaceUtils";
+import { createNewGig } from "../utils/GigUtils";
 
 const CreateGig = () => {
-  const { Moralis, user } = useMoralis();
-  const sellerId = user.id;
-
   const [thumbnail, setThumbnail] = useState(null);
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [deliveryTime, setDeliveryTime] = useState("");
-  const [category, setCategory] = useState("");
   const [desc, setDesc] = useState("");
   const [addGigStatus, setAddGigStatus] = useState("idle");
-  const [subs, setSubs] = useState([]);
 
   const history = useHistory();
-
-  useEffect(() => {
-    try {
-      getAllGigSubCategories().then((s) => {
-        console.log("Sub categories retrieved", s);
-        setSubs(s);
-      });
-    } catch (err) {
-      console.log("Error retrieving gig", err);
-    }
-  }, []);
+  const { Moralis, user } = useMoralis();
+  const sellerId = user.id;
 
   const onCreateNewGig = (event) => {
     event.preventDefault();
@@ -38,19 +23,13 @@ const CreateGig = () => {
     if (addGigStatus === "idle") {
       try {
         setAddGigStatus("pending");
-
         const moralisThumbnail = new Moralis.File(thumbnail.name, thumbnail);
-        createNewGig(
-          moralisThumbnail,
-          title,
-          price,
-          category,
-          desc,
-          sellerId
-        ).then((gig) => {
-          console.log("New Gig created with the gigId: ", gig.id);
-          history.push(`/`);
-        });
+        createNewGig(moralisThumbnail, title, price, desc, sellerId).then(
+          (gig) => {
+            console.log("New Gig created with the gigId: ", gig.id);
+            history.push(`/`);
+          }
+        );
       } catch (err) {
         console.error("Failed to create new Gig: ", err);
       } finally {
@@ -111,18 +90,6 @@ const CreateGig = () => {
           </Row>
         </Form.Group>
         <Form.Group>
-          <Form.Label>Category</Form.Label>
-          <Form.Control
-            as='select'
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            {subs.map((sub, index) => (
-              <option key={index}>{sub.getTitle()}</option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-        <Form.Group>
           <Form.Label>Description</Form.Label>
           <Form.Control
             as='textarea'
@@ -131,7 +98,7 @@ const CreateGig = () => {
             onChange={(e) => setDesc(e.target.value)}
           />
         </Form.Group>
-        <Button variant='primary' type='submit'>
+        <Button variant='success' type='submit'>
           List Gig
         </Button>
       </Form>

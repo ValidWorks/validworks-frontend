@@ -58,21 +58,13 @@ const Order = moralis.Object.extend("Order", {
 });
 
 // Functions
-const createNewGig = async (
-  thumbnail,
-  title,
-  price,
-  category,
-  description,
-  sellerId
-) => {
+const createNewGig = async (thumbnail, title, price, description, sellerId) => {
   const newGig = new Gig();
 
   newGig.set("thumbnail", thumbnail);
   newGig.set("title", title.toString());
   newGig.set("price", parseFloat(price));
   newGig.set("description", description.toString());
-  newGig.set("category", category.toString());
   newGig.set("sellerId", sellerId.toString());
   newGig.set("status", "Open");
 
