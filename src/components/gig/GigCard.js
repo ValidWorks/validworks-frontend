@@ -30,10 +30,13 @@ const GigCard = ({ gig }) => {
       <p style={{ fontSize: "14px", padding: "5px 0", marginBottom: "3px" }}>
         {title}
       </p>
+      <p style={{ fontSize: "14px", padding: "5px 0", marginBottom: "3px" }}>
+        { gig.getDeliveryTime() ? gig.getDeliveryTime() : "undefined" } Days
+      </p>
       <hr
         style={{
-          color: "#28A745",
-          backgroundColor: "#28A745",
+          color: gig.getStatus() === "Open" ? "#28A745" : "#909090" ,
+          backgroundColor: gig.getStatus() === "Open" ? "#28A745" : "#909090",
           height: 1,
           width: "80%",
           marginTop: "0px",

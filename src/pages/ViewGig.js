@@ -242,14 +242,14 @@ const ViewGig = (props) => {
             />
           </Col>
           <Col style={{ marginLeft: "10px", width: "100%" }} xs={6}>
-            <Row style={{ width: "50%", marginBottom: "0px" }}>
-              <Col style={{ margin: "0px", padding: "0px" }}>
-                <h1>{gig.getTitle()}</h1>
+            <Row style={{ width: "100%", marginBottom: "0px" }}>
+              <Col xs="8" style={{ margin: "0px", padding: "0px" }}>
+                <h1 className="d-flex">{gig.getTitle()}</h1>
               </Col>
-              <Col style={{ marginLeft: "0px", paddingLeft: "0px" }}>
+              <Col xs="4" style={{ marginLeft: "0px", paddingLeft: "0px" }}>
                 <Button
                   size='sm'
-                  variant='success'
+                  variant={ gig.getStatus() === "Open" ? 'success' : "secondary" }
                   style={{ marginTop: "10px", marginLeft: "20px" }}
                 >
                   {gig.getStatus()}
@@ -268,6 +268,7 @@ const ViewGig = (props) => {
             </Row>
 
             <Row style={{ marginTop: "10px" }}>{gig.getPrice()} EGLD</Row>
+            <Row style={{ marginTop: "10px" }}>Delivery Time: { gig.getDeliveryTime() ? gig.getDeliveryTime() : "undefined" } Days</Row>
             <Row style={{ marginTop: "10px" }}>{email}</Row>
 
             {items}
@@ -320,14 +321,14 @@ const ViewGig = (props) => {
           />
         </Col>
         <Col style={{ marginLeft: "10px", width: "100%" }} xs={6}>
-          <Row style={{ width: "50%", marginBottom: "0px" }}>
-            <Col style={{ margin: "0px", padding: "0px" }}>
-              <h1>{gig.getTitle()}</h1>
+          <Row style={{ width: "100%", marginBottom: "0px" }}>
+            <Col xs="8" style={{ margin: "0px", padding: "0px" }}>
+              <h1 className="d-flex">{gig.getTitle()}</h1>
             </Col>
-            <Col style={{ marginLeft: "0px", paddingLeft: "0px" }}>
+            <Col xs="4" style={{ marginLeft: "0px", paddingLeft: "0px" }}>
               <Button
+                variant={ gig.getStatus() === "Open" ? 'success' : "secondary" }
                 size='sm'
-                variant='success'
                 style={{ marginTop: "10px", marginLeft: "20px" }}
               >
                 {gig.getStatus()}
@@ -346,6 +347,7 @@ const ViewGig = (props) => {
           </Row>
 
           <Row style={{ marginTop: "10px" }}>{gig.getPrice()} EGLD</Row>
+          <Row style={{ marginTop: "10px" }}>Delivery Time: { gig.getDeliveryTime() ? gig.getDeliveryTime() : "undefined" } Days</Row>
           <Row style={{ marginTop: "10px" }}>{email}</Row>
 
           {items}

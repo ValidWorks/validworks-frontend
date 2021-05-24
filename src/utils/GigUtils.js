@@ -55,6 +55,9 @@ const Gig = moralis.Object.extend("Gig", {
   getSellerAddr: function() {
     return this.get("sellerAddr");
   },
+  getDeliveryTime: function() {
+    return this.get("deliveryTime")
+  }
 });
 
 const Order = moralis.Object.extend("Order", {
