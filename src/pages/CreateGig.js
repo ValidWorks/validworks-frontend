@@ -26,7 +26,7 @@ const CreateGig = () => {
     // Generate gig_id: u64
 
     // Convert delivery time (in days) to nonce
-    let deliveryNonce = deliveryTime * 8640;
+    let deliveryNonce = deliveryTime * 14400;
     // TODO: Change sc to use String; generate alphanumeric hash
     let onChainId = getRandomNumber();
     let sellerAddr = user.get("erdAddress");

@@ -67,7 +67,7 @@ const sellerList = async (caller_address, gig_id, deadline, price) => {
   payload_builder.addArg(new U64Value(new BigNumber(gig_id))); // gig-id
   payload_builder.addArg(new U64Value(new BigNumber(deadline))); // deadline
   payload_builder.addArg(
-    new BigUIntValue(new BigNumber(price / 1000000000000000000))
+    new BigUIntValue(new BigNumber(price * 1000000000000000000))
   ); // price
   // BUIDL
   let payload = payload_builder.build();
