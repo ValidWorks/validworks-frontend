@@ -29,9 +29,10 @@ const CreateGig = () => {
     let deliveryNonce = deliveryTime * 8640;
     // TODO: Change sc to use String; generate alphanumeric hash
     let onChainId = getRandomNumber();
+    let sellerAddr = user.get("erdAddress");
 
     if (addGigStatus === "idle") {
-      sellerList(user.get("erdAddress"), onChainId, deliveryNonce, price)
+      sellerList(sellerAddr, onChainId, deliveryNonce, price)
         .then((reply) => {
           console.log(reply.getHash().toString());
           try {
@@ -47,7 +48,8 @@ const CreateGig = () => {
               desc,
               sellerId,
               onChainId,
-              reply.getHash().toString()
+              reply.getHash().toString(),
+              sellerAddr
             ).then((gig) => {
               console.log("New Gig created with the gigId: ", gig.id);
               history.push(`/`);

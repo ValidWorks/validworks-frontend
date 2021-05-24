@@ -4,24 +4,22 @@ import { useMoralis } from "react-moralis";
 import { buyerOrder } from "../utils/ErdjsUtils";
 // import TimeAgo from '../../components/gig/TimeAgo'
 import { selectGigById } from "../utils/GigUtils";
-import { getUserById } from "../utils/UserUtils";
+import { getEmailByUserId, getUserById } from "../utils/UserUtils";
 
 const ViewGig = (props) => {
   const { isAuthenticated, user } = useMoralis();
   const [gig, setGig] = useState();
   const { gigId } = props.match.params;
   const [email, setEmail] = useState("");
-  const [sellerAddr, setSellerAddr] = useState("");
 
   useEffect(() => {
     try {
       selectGigById(gigId).then((gig) => {
         console.log("Gig successfully retrieved");
         setGig(gig);
-        getUserById(gig.getSellerId())
-          .then((user) => {
-            setEmail(user.get("email"));
-            setSellerAddr(user.get("erdAddress"));
+        getEmailByUserId(gig.getSellerId())
+          .then((sellerEmail) => {
+            setEmail(sellerEmail);
           })
           .catch((err) => {
             console.log(err);
@@ -35,19 +33,21 @@ const ViewGig = (props) => {
   if (!gig) {
     return <div></div>;
   }
-
+  console.log(gig.getPrice() * 1.2);
   const order = () => {
-    console.log("buyeraddr: " + user.get("erdAddress"));
-    console.log("selleraddr: " + sellerAddr);
     buyerOrder(
       user.get("erdAddress"),
       gig.getOnChainId(),
-      sellerAddr,
+      gig.getSellerAddr(),
       gig.getPrice() * 1.2
-    ).then((reply) => {
-      console.log(reply.getHash().hash);
-      gig.setStatus("In Order");
-    });
+    )
+      .then((reply) => {
+        console.log(reply.getHash().hash);
+        gig.setStatus("In Order");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // DEFAULT

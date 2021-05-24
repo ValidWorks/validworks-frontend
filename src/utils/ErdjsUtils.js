@@ -190,7 +190,7 @@ const buyerOrder = async (caller_address, gig_id, seller_address, payment) => {
   let payload = payload_builder.build();
   // MAKE TRANSACTION
   let tx = new Transaction({
-    value: new Balance(payment),
+    value: new Balance(payment * 1000000000000000000),
     receiver: smartContractAddress,
     nonce: caller.nonce,
     gasLimit: new GasLimit(50000000),
