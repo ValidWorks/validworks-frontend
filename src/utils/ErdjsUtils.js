@@ -26,6 +26,31 @@ const smartContractAddress = new Address(
   "erd1qqqqqqqqqqqqqpgqqr37qsc5lyue3ketjjh90jnwwsaypx9md8ss4w9n7k"
 );
 
+const connectLedger = async () => {
+  hwWalletP
+    .init()
+    .then((success) => {
+      if (!success) {
+        console.warn(
+          "could not initialise ledger app, make sure Elrond app is open"
+        );
+        return;
+      }
+
+      hwWalletP
+        .login()
+        .then((address) => {
+          console.log(address);
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
+    })
+    .catch((error) => {
+      console.error("error ", error);
+    });
+};
+
 /* 
 @param caller_address: String
 @param gig_id: number
@@ -54,14 +79,7 @@ const sellerList = async (caller_address, gig_id, deadline, price) => {
     data: payload,
   });
   // SEND IT
-  hwWalletP
-    .sendTransaction(tx)
-    .then((reply) => {
-      console.log(reply.getHash().hash);
-    })
-    .catch((err) => {
-      console.warn(err);
-    });
+  return hwWalletP.sendTransaction(tx);
 };
 
 /* 
@@ -118,14 +136,7 @@ const sellerDeliver = async (caller_address, gig_id) => {
     data: payload,
   });
   // SEND IT
-  hwWalletP
-    .sendTransaction(tx)
-    .then((reply) => {
-      console.log(reply.getHash().hash);
-    })
-    .catch((err) => {
-      console.warn(err);
-    });
+  return hwWalletP.sendTransaction(tx);
 };
 
 /* 
@@ -186,14 +197,7 @@ const buyerOrder = async (caller_address, gig_id, seller_address, payment) => {
     data: payload,
   });
   // SEND IT
-  hwWalletP
-    .sendTransaction(tx)
-    .then((reply) => {
-      console.log(reply.getHash().hash);
-    })
-    .catch((err) => {
-      console.warn(err);
-    });
+  return hwWalletP.sendTransaction(tx);
 };
 
 /* 
@@ -298,4 +302,14 @@ const buyerAccept = async (caller_address, gig_id, seller_address) => {
     });
 };
 
-export { sellerList };
+export {
+  connectLedger,
+  sellerList,
+  sellerUnlist,
+  sellerClaim,
+  sellerDeliver,
+  buyerAccept,
+  buyerDispute,
+  buyerOrder,
+  buyerRefund,
+};

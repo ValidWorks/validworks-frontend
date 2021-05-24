@@ -18,28 +18,48 @@ const CreateGig = () => {
   const { Moralis, user } = useMoralis();
   const sellerId = user.id;
 
+  console.log(getRandomNumber());
+
   const onCreateNewGig = (event) => {
     event.preventDefault();
 
+    // Generate gig_id: u64
+
     // Convert delivery time (in days) to nonce
     let deliveryNonce = deliveryTime * 8640;
-    sellerList(user.get("erdAddress"), 1, deliveryNonce, price);
+    // TODO: Change sc to use String; generate alphanumeric hash
+    let onChainId = getRandomNumber();
 
     if (addGigStatus === "idle") {
-      try {
-        setAddGigStatus("pending");
-        const moralisThumbnail = new Moralis.File(thumbnail.name, thumbnail);
-        createNewGig(moralisThumbnail, title, price, desc, sellerId).then(
-          (gig) => {
-            console.log("New Gig created with the gigId: ", gig.id);
-            history.push(`/`);
+      sellerList(user.get("erdAddress"), onChainId, deliveryNonce, price)
+        .then((reply) => {
+          console.log(reply.getHash().hash);
+          try {
+            setAddGigStatus("pending");
+            const moralisThumbnail = new Moralis.File(
+              thumbnail.name,
+              thumbnail
+            );
+            createNewGig(
+              moralisThumbnail,
+              title,
+              price,
+              desc,
+              sellerId,
+              onChainId
+            ).then((gig) => {
+              console.log("New Gig created with the gigId: ", gig.id);
+              history.push(`/`);
+            });
+          } catch (err) {
+            console.error("Failed to create new Gig: ", err);
+          } finally {
+            setAddGigStatus("idle");
           }
-        );
-      } catch (err) {
-        console.error("Failed to create new Gig: ", err);
-      } finally {
-        setAddGigStatus("idle");
-      }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
@@ -109,6 +129,10 @@ const CreateGig = () => {
       </Form>
     </div>
   );
+};
+
+const getRandomNumber = () => {
+  return Math.random() * 2e19;
 };
 
 export default CreateGig;

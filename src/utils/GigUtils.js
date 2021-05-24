@@ -34,6 +34,12 @@ const Gig = moralis.Object.extend("Gig", {
   getStatus: function() {
     return this.get("status").toString();
   },
+  setStatus: function(newStatus) {
+    return this.set(newStatus);
+  },
+  getOnChainId: function() {
+    return this.get("onChainId");
+  },
 });
 
 const Order = moralis.Object.extend("Order", {
@@ -58,7 +64,14 @@ const Order = moralis.Object.extend("Order", {
 });
 
 // Functions
-const createNewGig = async (thumbnail, title, price, description, sellerId) => {
+const createNewGig = async (
+  thumbnail,
+  title,
+  price,
+  description,
+  sellerId,
+  onChainId
+) => {
   const newGig = new Gig();
 
   newGig.set("thumbnail", thumbnail);
@@ -66,7 +79,7 @@ const createNewGig = async (thumbnail, title, price, description, sellerId) => {
   newGig.set("price", parseFloat(price));
   newGig.set("description", description.toString());
   newGig.set("sellerId", sellerId.toString());
-
+  newGig.set("onChainId", onChainId.toString());
   const gig = await newGig.save();
 
   return gig;

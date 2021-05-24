@@ -2,7 +2,7 @@ import moralis from "moralis";
 
 const getProfilePhotoUrl = async (userId) => {
   const query = new moralis.Query(moralis.User);
-  const result = await query.get(userId);
+  const result = query.get(userId);
   const profilePhotoUrl = result.then((user) => {
     return user.get("profilePhoto");
   });
@@ -10,13 +10,20 @@ const getProfilePhotoUrl = async (userId) => {
   return profilePhotoUrl;
 };
 
-const getEmail = async (userId) => {
+const getEmailByUserId = async (userId) => {
   const query = new moralis.Query(moralis.User);
-  const result = await query.get(userId);
-  const email = result.then((user) => {
+  const result = query.get(userId);
+  result.then((user) => {
     return user.get("email");
   });
-  return email;
+};
+
+const getUserById = async (userId) => {
+  const query = new moralis.Query(moralis.User);
+  const result = query.get(userId);
+  result.then((user) => {
+    return user;
+  });
 };
 
 const updateProfile = async (user, username, email, profilePhoto) => {
@@ -29,7 +36,7 @@ const updateProfile = async (user, username, email, profilePhoto) => {
 
 const getErdAddrByUserId = async (userId) => {
   const query = new moralis.Query(moralis.User);
-  const result = await query.get(userId);
+  const result = query.get(userId);
   const erdAddr = result.then((user) => {
     return user.get("erdAddress");
   });
@@ -46,5 +53,6 @@ export {
   updateProfile,
   getErdAddrByUserId,
   getErdAddrByUser,
-  getEmail,
+  getEmailByUserId,
+  getUserById,
 };

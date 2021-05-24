@@ -10,6 +10,7 @@ import {
 import { useHistory } from "react-router";
 import { useState } from "react";
 import { useMoralis } from "react-moralis";
+import { connectLedger } from "../../utils/ErdjsUtils";
 
 const Navbar = () => {
   const history = useHistory();
@@ -65,6 +66,17 @@ const Navbar = () => {
           variant='outline-success'
         >
           Create Gig
+        </Button>
+      </Nav.Item>
+      <Nav.Item>
+        <Button
+          onClick={() => {
+            connectLedger();
+          }}
+          style={{ marginLeft: "10px" }}
+          variant='outline-success'
+        >
+          Ledger Login
         </Button>
       </Nav.Item>
       <Nav.Item>

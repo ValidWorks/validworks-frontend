@@ -36,28 +36,23 @@ const ExploreCarousel = () => {
   let cards = "";
   if (gigs && gigs.length > 0) {
     cards = (
-      <div>
-        {gigs.map((gig, index) => (
-          <div>
-            <GigCard key={index} gig={gig} />
-          </div>
-        ))}
-      </div>
-    );
-  } else {
-    cards = <div>You have not listed any gigs yet. List one now?</div>;
-  }
-
-  return (
-    <div>
-      <h1 style={{ marginBottom: "50px" }}>Explore</h1>
       <Slider {...settings}>
         {gigs.map((gig, index) => (
           <div>
             <GigCard key={index} gig={gig} />
           </div>
         ))}
+        {gigs.length < 5 && Array(5 - gigs.length).fill(<div />)}
       </Slider>
+    );
+  } else {
+    cards = <div></div>;
+  }
+
+  return (
+    <div>
+      <h1 style={{ marginBottom: "50px" }}>Explore</h1>
+      {cards}
     </div>
   );
 };

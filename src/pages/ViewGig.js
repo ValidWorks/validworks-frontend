@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useMoralis } from "react-moralis";
+import { buyerOrder } from "../utils/ErdjsUtils";
 // import TimeAgo from '../../components/gig/TimeAgo'
 import { selectGigById } from "../utils/GigUtils";
-import { getEmail } from "../utils/UserUtils";
+import { getUserById } from "../utils/UserUtils";
 
 const ViewGig = (props) => {
   const { isAuthenticated, user } = useMoralis();
   const [gig, setGig] = useState();
   const { gigId } = props.match.params;
+  const [email, setEmail] = useState("");
+  const [sellerAddr, setSellerAddr] = useState("");
+
   useEffect(() => {
     try {
       selectGigById(gigId).then((gig) => {
         console.log("Gig successfully retrieved");
         setGig(gig);
+        getUserById(gig.getSellerId())
+          .then((user) => {
+            setEmail(user.get("email"));
+            setSellerAddr(user.get("erdAddress"));
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       });
     } catch (err) {
       console.log("Error retrieving gig", err);
@@ -24,20 +36,31 @@ const ViewGig = (props) => {
     return <div></div>;
   }
 
-  // Get seller contact
-  let sellerId = gig.getSellerId();
-  let sellerEmail = getEmail(sellerId);
+  const order = () => {
+    console.log("buyeraddr: " + user.get("erdAddress"));
+    console.log("selleraddr: " + sellerAddr);
+    buyerOrder(
+      user.get("erdAddress"),
+      gig.getOnChainId(),
+      sellerAddr,
+      gig.getPrice() * 1.2
+    ).then((reply) => {
+      console.log(reply.getHash().hash);
+      gig.setStatus("In Order");
+    });
+  };
 
   // DEFAULT
   // unauthenticated visitor & Open
-  // unauthenticated visitor & InOrder
-  // authenticated visitor & InOrder
+  // unauthenticated visitor & In Order
+  // authenticated visitor & In Order
   let items = <Row></Row>;
   // authenticated visitor & Open
   // Order
   let visitorItems = (
     <Row style={{ marginTop: "60px" }}>
       <Button
+        onClick={order}
         variant='outline-success'
         style={{ marginLeft: "5px", width: "80px" }}
       >
@@ -45,7 +68,7 @@ const ViewGig = (props) => {
       </Button>
     </Row>
   );
-  // seller & InOrder
+  // seller & In Order
   // Deliver Claim
   let sellerOrderItems = (
     <Row style={{ marginTop: "60px" }}>
@@ -138,7 +161,7 @@ const ViewGig = (props) => {
             </Row>
 
             <Row style={{ marginTop: "10px" }}>{gig.getPrice()} EGLD</Row>
-            <Row style={{ marginTop: "10px" }}>{sellerEmail}</Row>
+            <Row style={{ marginTop: "10px" }}>{email}</Row>
             <Row style={{ marginTop: "10px" }}>{gig.getDesc()}</Row>
 
             {items}
@@ -153,7 +176,7 @@ const ViewGig = (props) => {
     case gig.getSellerId():
       if (gig.getStatus() === "Open") {
         items = sellerOpenItems;
-      } else if (gig.getStatus() === "InOrder") {
+      } else if (gig.getStatus() === "In Order") {
         items = sellerOrderItems;
       }
       break;
@@ -194,7 +217,7 @@ const ViewGig = (props) => {
           </Row>
 
           <Row style={{ marginTop: "10px" }}>{gig.getPrice()} EGLD</Row>
-          <Row style={{ marginTop: "10px" }}>{sellerEmail}</Row>
+          <Row style={{ marginTop: "10px" }}>{email}</Row>
           <Row style={{ marginTop: "10px" }}>{gig.getDesc()}</Row>
 
           {items}
