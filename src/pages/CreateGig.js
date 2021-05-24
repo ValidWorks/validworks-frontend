@@ -33,7 +33,7 @@ const CreateGig = () => {
     if (addGigStatus === "idle") {
       sellerList(user.get("erdAddress"), onChainId, deliveryNonce, price)
         .then((reply) => {
-          console.log(reply.getHash().hash);
+          console.log(reply.getHash().toString());
           try {
             setAddGigStatus("pending");
             const moralisThumbnail = new Moralis.File(
@@ -46,7 +46,8 @@ const CreateGig = () => {
               price,
               desc,
               sellerId,
-              onChainId
+              onChainId,
+              reply.getHash().toString()
             ).then((gig) => {
               console.log("New Gig created with the gigId: ", gig.id);
               history.push(`/`);

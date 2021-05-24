@@ -161,7 +161,16 @@ const ViewGig = (props) => {
                 </Button>
               </Col>
             </Row>
-            <Row style={{ marginTop: "0px" }}>id: {gig.getOnChainId()}</Row>
+            <Row style={{ marginTop: "0px" }}>
+              <a
+                href={
+                  "https://testnet-explorer.elrond.com/transactions/" +
+                  gig.getListTxHash()
+                }
+              >
+                id: {gig.getOnChainId()}
+              </a>
+            </Row>
 
             <Row style={{ marginTop: "10px" }}>{gig.getPrice()} EGLD</Row>
             <Row style={{ marginTop: "10px" }}>{email}</Row>
@@ -230,7 +239,16 @@ const ViewGig = (props) => {
               </Button>
             </Col>
           </Row>
-          <Row style={{ marginTop: "0px" }}>id: {gig.getOnChainId()}</Row>
+          <Row style={{ marginTop: "0px" }}>
+            <a
+              href={
+                "https://testnet-explorer.elrond.com/transactions/" +
+                gig.getListTxHash()
+              }
+            >
+              id: {gig.getOnChainId()}
+            </a>
+          </Row>
 
           <Row style={{ marginTop: "10px" }}>{gig.getPrice()} EGLD</Row>
           <Row style={{ marginTop: "10px" }}>{email}</Row>

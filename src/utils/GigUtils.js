@@ -40,6 +40,9 @@ const Gig = moralis.Object.extend("Gig", {
   getOnChainId: function() {
     return this.get("onChainId");
   },
+  getListTxHash: function() {
+    return this.get("listTxHash");
+  },
 });
 
 const Order = moralis.Object.extend("Order", {
@@ -70,7 +73,8 @@ const createNewGig = async (
   price,
   description,
   sellerId,
-  onChainId
+  onChainId,
+  listTxHash
 ) => {
   const newGig = new Gig();
 
@@ -80,6 +84,7 @@ const createNewGig = async (
   newGig.set("description", description.toString());
   newGig.set("sellerId", sellerId.toString());
   newGig.set("onChainId", onChainId.toString());
+  newGig.set("listTxHash", listTxHash.toString());
   const gig = await newGig.save();
 
   return gig;
