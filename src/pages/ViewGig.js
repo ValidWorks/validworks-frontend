@@ -71,6 +71,7 @@ const ViewGig = (props) => {
     sellerClaim(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
         console.log(reply.getHash().hash);
+        gig.setStatus("Open");
       })
       .catch((err) => {
         console.log(err);
@@ -110,6 +111,7 @@ const ViewGig = (props) => {
     buyerRefund(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
         console.log(reply.getHash().hash);
+        gig.setStatus("Open");
       })
       .catch((err) => {
         console.log(err);
@@ -124,6 +126,7 @@ const ViewGig = (props) => {
     )
       .then((reply) => {
         console.log(reply.getHash().hash);
+        gig.setStatus("Open");
       })
       .catch((err) => {
         console.log(err);
