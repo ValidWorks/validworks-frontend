@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useMoralis } from "react-moralis";
-import { buyerOrder } from "../utils/ErdjsUtils";
+import {
+  buyerOrder,
+  sellerList,
+  sellerClaim,
+  sellerUnlist,
+  sellerDeliver,
+  buyerRefund,
+} from "../utils/ErdjsUtils";
 // import TimeAgo from '../../components/gig/TimeAgo'
 import { selectGigById } from "../utils/GigUtils";
 import { getEmailByUserId, getUserById } from "../utils/UserUtils";
@@ -33,7 +40,7 @@ const ViewGig = (props) => {
   if (!gig) {
     return <div></div>;
   }
-  console.log(gig.getPrice() * 1.2);
+
   const order = () => {
     buyerOrder(
       user.get("erdAddress"),
@@ -44,6 +51,79 @@ const ViewGig = (props) => {
       .then((reply) => {
         console.log(reply.getHash().hash);
         gig.setStatus("In Order");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const deliver = () => {
+    sellerDeliver(user.get("erdAddress"), gig.getOnChainId())
+      .then((reply) => {
+        console.log(reply.getHash().hash);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const claim = () => {
+    sellerClaim(user.get("erdAddress"), gig.getOnChainId())
+      .then((reply) => {
+        console.log(reply.getHash().hash);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const unlist = () => {
+    sellerUnlist(user.get("erdAddress"), gig.getOnChainId())
+      .then((reply) => {
+        console.log(reply.getHash().hash);
+        // remove listing
+        gig
+          .destroy()
+          .then((gig) => {
+            console.log("Gig succesfully unlisted");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const accept = () => {
+    buyerAccept(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
+      .then((reply) => {
+        console.log(reply.getHash().hash);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const refund = () => {
+    buyerRefund(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
+      .then((reply) => {
+        console.log(reply.getHash().hash);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const dispute = () => {
+    buyerDispute(
+      user.get("erdAddress"),
+      gig.getOnChainId(),
+      gig.getSellerAddr()
+    )
+      .then((reply) => {
+        console.log(reply.getHash().hash);
       })
       .catch((err) => {
         console.log(err);
@@ -73,6 +153,7 @@ const ViewGig = (props) => {
   let sellerOrderItems = (
     <Row style={{ marginTop: "60px" }}>
       <Button
+        onClick={deliver}
         variant='outline-success'
         style={{ marginLeft: "5px", width: "80px" }}
       >
@@ -80,6 +161,7 @@ const ViewGig = (props) => {
       </Button>
 
       <Button
+        onClick={claim}
         variant='outline-success'
         style={{ marginLeft: "5px", width: "80px" }}
       >
@@ -87,6 +169,7 @@ const ViewGig = (props) => {
       </Button>
 
       <Button
+        onClick={unlist}
         variant='outline-success'
         style={{ marginLeft: "5px", width: "80px" }}
       >
@@ -111,6 +194,7 @@ const ViewGig = (props) => {
   let buyerItems = (
     <Row style={{ marginTop: "60px" }}>
       <Button
+        onClick={refund}
         variant='outline-success'
         style={{ marginLeft: "5px", width: "80px" }}
       >
@@ -118,6 +202,7 @@ const ViewGig = (props) => {
       </Button>
 
       <Button
+        onClick={dispute}
         variant='outline-success'
         style={{ marginLeft: "5px", width: "80px" }}
       >
@@ -125,6 +210,7 @@ const ViewGig = (props) => {
       </Button>
 
       <Button
+        onClick={accept}
         variant='outline-success'
         style={{ marginLeft: "5px", width: "80px" }}
       >
