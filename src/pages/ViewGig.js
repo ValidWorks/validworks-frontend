@@ -3,7 +3,6 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { useMoralis } from "react-moralis";
 import {
   buyerOrder,
-  sellerList,
   sellerClaim,
   sellerUnlist,
   sellerDeliver,
@@ -12,7 +11,7 @@ import {
   buyerAccept,
 } from "../utils/ErdjsUtils";
 // import TimeAgo from '../../components/gig/TimeAgo'
-import { selectGigById } from "../utils/GigUtils";
+import { selectGigById, getBuyerId } from "../utils/GigUtils";
 import { getEmailByUserId, getUserById } from "../utils/UserUtils";
 
 const ViewGig = (props) => {
@@ -53,6 +52,7 @@ const ViewGig = (props) => {
       .then((reply) => {
         console.log(reply.getHash().hash);
         gig.setStatus("In Order");
+        gig.setBuyerId(user.id);
       })
       .catch((err) => {
         console.log(err);
@@ -69,11 +69,13 @@ const ViewGig = (props) => {
       });
   };
 
+  // Ends Order
   const claim = () => {
     sellerClaim(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
         console.log(reply.getHash().hash);
         gig.setStatus("Open");
+        gig.removeBuyerId();
       })
       .catch((err) => {
         console.log(err);
@@ -108,18 +110,19 @@ const ViewGig = (props) => {
         console.log(err);
       });
   };
-
+  // Ends order
   const refund = () => {
     buyerRefund(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
         console.log(reply.getHash().hash);
         gig.setStatus("Open");
+        gig.removeBuyerId();
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
+  // Ends order
   const dispute = () => {
     buyerDispute(
       user.get("erdAddress"),
@@ -129,6 +132,7 @@ const ViewGig = (props) => {
       .then((reply) => {
         console.log(reply.getHash().hash);
         gig.setStatus("Open");
+        gig.removeBuyerId();
       })
       .catch((err) => {
         console.log(err);

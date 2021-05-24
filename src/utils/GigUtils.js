@@ -38,6 +38,14 @@ const Gig = moralis.Object.extend("Gig", {
     this.set("status", newStatus);
     this.save();
   },
+  setBuyerId: function(newBuyerId) {
+    this.set("buyerId", newBuyerId);
+    this.save();
+  },
+  removeBuyerId: function() {
+    this.set("buyerId", "nil");
+    this.save();
+  },
   getOnChainId: function() {
     return this.get("onChainId");
   },
@@ -96,47 +104,6 @@ const createNewGig = async (
   return gig;
 };
 
-const editGig = async (gigId, title, price, category, description) => {
-  const gigQuery = new moralis.Query(Gig);
-  const existingGig = await gigQuery.get(gigId);
-  existingGig.then(
-    (gig) => {
-      console.log("Gig was retrieved successfully");
-      gig.set("title", title);
-      gig.set("price", price);
-      gig.set("description", description);
-      gig.set("category", category);
-    },
-    (error) => {
-      console.log("Failed to retrieve Gig, with the error: ", error.message);
-    }
-  );
-};
-
-const orderGig = async (gigId, buyerId, sellerId) => {
-  // Find the seller address using the seller id
-  const sellerErdAddr = getErdAddrByUserId(sellerId);
-
-  // order the gig onchain using erdjs
-
-  // get the status of the order using the elrond api
-  const txHash = "";
-  const status = "ordered";
-
-  // add the order to the database as well as the status
-  const newOrder = new Order();
-
-  newOrder.set("gigId", gigId.toString());
-  newOrder.set("buyerId", buyerId.toString());
-  newOrder.set("sellerId", sellerId.toString());
-  newOrder.set("txHash", txHash.toString());
-  newOrder.set("status", status.toString());
-
-  const order = await newOrder.save();
-
-  return order;
-};
-
 const selectGigById = async (gigId) => {
   const gigQuery = new moralis.Query(Gig);
   try {
@@ -150,7 +117,7 @@ const selectGigById = async (gigId) => {
 const selectGigsByBuyerId = async (buyerId) => {
   // Buyer orders from the Order database
   // TODO: Should set ACL to only allow the buyer to query his own orders
-  const orderQuery = new moralis.Query(Order);
+  const orderQuery = new moralis.Query(Gig);
   orderQuery.equalTo("buyerId", buyerId);
   const results = await orderQuery.find();
 
@@ -176,8 +143,6 @@ const listGigs = async () => {
 
 export {
   createNewGig,
-  editGig,
-  orderGig,
   selectGigById,
   selectGigsByBuyerId,
   selectGigsBySellerId,
