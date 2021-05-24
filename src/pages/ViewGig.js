@@ -147,24 +147,37 @@ const ViewGig = (props) => {
             />
           </Col>
           <Col style={{ marginLeft: "10px", width: "100%" }} xs={6}>
-            <Row>
-              <h1>{gig.getTitle()}</h1>
+            <Row style={{ width: "50%", marginBottom: "0px" }}>
+              <Col style={{ margin: "0px", padding: "0px" }}>
+                <h1>{gig.getTitle()}</h1>
+              </Col>
+              <Col style={{ marginLeft: "0px", paddingLeft: "0px" }}>
+                <Button
+                  size='sm'
+                  variant='success'
+                  style={{ marginTop: "10px", marginLeft: "20px" }}
+                >
+                  {gig.getStatus()}
+                </Button>
+              </Col>
             </Row>
-            <Row>
-              <Button
-                size='sm'
-                variant='success'
-                style={{ marginTop: "10px", marginLeft: "0px" }}
-              >
-                {gig.getStatus()}
-              </Button>
-            </Row>
+            <Row style={{ marginTop: "0px" }}>id: {gig.getOnChainId()}</Row>
 
             <Row style={{ marginTop: "10px" }}>{gig.getPrice()} EGLD</Row>
             <Row style={{ marginTop: "10px" }}>{email}</Row>
-            <Row style={{ marginTop: "10px" }}>{gig.getDesc()}</Row>
 
             {items}
+          </Col>
+        </Row>
+        <Row style={{ marginTop: "30px", marginLeft: "10px" }}>
+          <Col>
+            <Row>
+              <h2>Description</h2>
+            </Row>
+            <Row>
+              {" "}
+              <p>{gig.getDesc()}</p>
+            </Row>
           </Col>
         </Row>
       </Container>
@@ -203,24 +216,37 @@ const ViewGig = (props) => {
           />
         </Col>
         <Col style={{ marginLeft: "10px", width: "100%" }} xs={6}>
-          <Row>
-            <h1>{gig.getTitle()}</h1>
+          <Row style={{ width: "50%", marginBottom: "0px" }}>
+            <Col style={{ margin: "0px", padding: "0px" }}>
+              <h1>{gig.getTitle()}</h1>
+            </Col>
+            <Col style={{ marginLeft: "0px", paddingLeft: "0px" }}>
+              <Button
+                size='sm'
+                variant='success'
+                style={{ marginTop: "10px", marginLeft: "20px" }}
+              >
+                {gig.getStatus()}
+              </Button>
+            </Col>
           </Row>
-          <Row>
-            <Button
-              size='sm'
-              variant='success'
-              style={{ marginTop: "10px", marginLeft: "0px" }}
-            >
-              {gig.getStatus()}
-            </Button>
-          </Row>
+          <Row style={{ marginTop: "0px" }}>id: {gig.getOnChainId()}</Row>
 
           <Row style={{ marginTop: "10px" }}>{gig.getPrice()} EGLD</Row>
           <Row style={{ marginTop: "10px" }}>{email}</Row>
-          <Row style={{ marginTop: "10px" }}>{gig.getDesc()}</Row>
 
           {items}
+        </Col>
+      </Row>
+      <Row style={{ marginTop: "30px", marginLeft: "10px" }}>
+        <Col>
+          <Row>
+            <h2>Description</h2>
+          </Row>
+          <Row>
+            {" "}
+            <p>{gig.getDesc()}</p>
+          </Row>
         </Col>
       </Row>
     </Container>
