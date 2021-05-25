@@ -79,7 +79,12 @@ const sellerList = async (caller_address, gig_id, deadline, price) => {
     data: payload,
   });
   // SEND IT
-  return hwWalletP.sendTransaction(tx);
+  let reply = await hwWalletP.sendTransaction(tx);
+  // Get the transaction object first
+  await reply.awaitExecuted(proxyProvider);
+  // Then wait for it to get executed
+  return reply;
+  // return the transaction
 };
 
 /* 
@@ -92,7 +97,7 @@ const sellerUnlist = async (caller_address, gig_id) => {
   await caller.sync(proxyProvider);
   // LOAD PAYLOAD
   let payload_builder = new ContractCallPayloadBuilder();
-  payload_builder.setFunction(new ContractFunction("list")); // function
+  payload_builder.setFunction(new ContractFunction("unlist")); // function
   payload_builder.addArg(new U64Value(new BigNumber(gig_id))); // gig-id
   // BUIDL
   let payload = payload_builder.build();
@@ -104,14 +109,12 @@ const sellerUnlist = async (caller_address, gig_id) => {
     data: payload,
   });
   // SEND IT
-  hwWalletP
-    .sendTransaction(tx)
-    .then((reply) => {
-      console.log(reply.getHash().hash);
-    })
-    .catch((err) => {
-      console.warn(err);
-    });
+  let reply = await hwWalletP.sendTransaction(tx);
+  // Get the transaction object first
+  await reply.awaitExecuted(proxyProvider);
+  // Then wait for it to get executed
+  return reply;
+  // return the transaction
 };
 
 /* 
@@ -136,7 +139,12 @@ const sellerDeliver = async (caller_address, gig_id) => {
     data: payload,
   });
   // SEND IT
-  return hwWalletP.sendTransaction(tx);
+  let reply = await hwWalletP.sendTransaction(tx);
+  // Get the transaction object first
+  await reply.awaitExecuted(proxyProvider);
+  // Then wait for it to get executed
+  return reply;
+  // return the transaction
 };
 
 /* 
@@ -161,14 +169,12 @@ const sellerClaim = async (caller_address, gig_id) => {
     data: payload,
   });
   // SEND IT
-  hwWalletP
-    .sendTransaction(tx)
-    .then((reply) => {
-      console.log(reply.getHash().hash);
-    })
-    .catch((err) => {
-      console.warn(err);
-    });
+  let reply = await hwWalletP.sendTransaction(tx);
+  // Get the transaction object first
+  await reply.awaitExecuted(proxyProvider);
+  // Then wait for it to get executed
+  return reply;
+  // return the transaction
 };
 
 /* 
@@ -197,7 +203,12 @@ const buyerOrder = async (caller_address, gig_id, seller_address, payment) => {
     data: payload,
   });
   // SEND IT
-  return hwWalletP.sendTransaction(tx);
+  let reply = await hwWalletP.sendTransaction(tx);
+  // Get the transaction object first
+  await reply.awaitExecuted(proxyProvider);
+  // Then wait for it to get executed
+  return reply;
+  // return the transaction
 };
 
 /* 
@@ -224,14 +235,12 @@ const buyerRefund = async (caller_address, gig_id, seller_address) => {
     data: payload,
   });
   // SEND IT
-  hwWalletP
-    .sendTransaction(tx)
-    .then((reply) => {
-      console.log(reply.getHash().hash);
-    })
-    .catch((err) => {
-      console.warn(err);
-    });
+  let reply = await hwWalletP.sendTransaction(tx);
+  // Get the transaction object first
+  await reply.awaitExecuted(proxyProvider);
+  // Then wait for it to get executed
+  return reply;
+  // return the transaction
 };
 
 /* 
@@ -258,14 +267,12 @@ const buyerDispute = async (caller_address, gig_id, seller_address) => {
     data: payload,
   });
   // SEND IT
-  hwWalletP
-    .sendTransaction(tx)
-    .then((reply) => {
-      console.log(reply.getHash().hash);
-    })
-    .catch((err) => {
-      console.warn(err);
-    });
+  let reply = await hwWalletP.sendTransaction(tx);
+  // Get the transaction object first
+  await reply.awaitExecuted(proxyProvider);
+  // Then wait for it to get executed
+  return reply;
+  // return the transaction
 };
 
 /* 
@@ -292,14 +299,12 @@ const buyerAccept = async (caller_address, gig_id, seller_address) => {
     data: payload,
   });
   // SEND IT
-  hwWalletP
-    .sendTransaction(tx)
-    .then((reply) => {
-      console.log(reply.getHash().hash);
-    })
-    .catch((err) => {
-      console.warn(err);
-    });
+  let reply = await hwWalletP.sendTransaction(tx);
+  // Get the transaction object first
+  await reply.awaitExecuted(proxyProvider);
+  // Then wait for it to get executed
+  return reply;
+  // return the transaction
 };
 
 export {

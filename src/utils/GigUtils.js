@@ -35,8 +35,19 @@ const Gig = moralis.Object.extend("Gig", {
     return this.get("status").toString();
   },
   setStatus: function(newStatus) {
+    console.log("status run");
     this.set("status", newStatus);
-    this.save();
+    this.save().then(
+      (gig) => {
+        // Execute any logic that should take place after the object is saved.
+        alert("New object created with gigId: " + gig.id);
+      },
+      (error) => {
+        // Execute any logic that should take place if the save fails.
+        // error is a Moralis.Error with an error code and message.
+        alert("Failed to create new object, with error code: " + error.message);
+      }
+    );
   },
   setBuyerId: function(newBuyerId) {
     this.set("buyerId", newBuyerId);
@@ -56,8 +67,8 @@ const Gig = moralis.Object.extend("Gig", {
     return this.get("sellerAddr");
   },
   getDeliveryTime: function() {
-    return this.get("deliveryTime")
-  }
+    return this.get("deliveryTime");
+  },
 });
 
 const Order = moralis.Object.extend("Order", {

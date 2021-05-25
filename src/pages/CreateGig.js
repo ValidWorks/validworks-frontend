@@ -35,29 +35,31 @@ const CreateGig = () => {
       sellerList(sellerAddr, onChainId, deliveryNonce, price)
         .then((reply) => {
           console.log(reply.getHash().toString());
-          try {
-            setAddGigStatus("pending");
-            const moralisThumbnail = new Moralis.File(
-              thumbnail.name,
-              thumbnail
-            );
-            createNewGig(
-              moralisThumbnail,
-              title,
-              price,
-              desc,
-              sellerId,
-              onChainId,
-              reply.getHash().toString(),
-              sellerAddr
-            ).then((gig) => {
-              console.log("New Gig created with the gigId: ", gig.id);
-              history.push(`/`);
-            });
-          } catch (err) {
-            console.error("Failed to create new Gig: ", err);
-          } finally {
-            setAddGigStatus("idle");
+          if (reply.getStatus().isSuccessful()) {
+            try {
+              setAddGigStatus("pending");
+              const moralisThumbnail = new Moralis.File(
+                thumbnail.name,
+                thumbnail
+              );
+              createNewGig(
+                moralisThumbnail,
+                title,
+                price,
+                desc,
+                sellerId,
+                onChainId,
+                reply.getHash().toString(),
+                sellerAddr
+              ).then((gig) => {
+                console.log("New Gig created with the gigId: ", gig.id);
+                history.push(`/`);
+              });
+            } catch (err) {
+              console.error("Failed to create new Gig: ", err);
+            } finally {
+              setAddGigStatus("idle");
+            }
           }
         })
         .catch((err) => {

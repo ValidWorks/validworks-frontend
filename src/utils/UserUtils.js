@@ -13,7 +13,7 @@ const getProfilePhotoUrl = async (userId) => {
 const getEmailByUserId = async (userId) => {
   const query = new moralis.Query(moralis.User);
   const result = query.get(userId);
-  result.then((user) => {
+  return result.then((user) => {
     return user.get("email");
   });
 };
@@ -21,7 +21,7 @@ const getEmailByUserId = async (userId) => {
 const getUserById = async (userId) => {
   const query = new moralis.Query(moralis.User);
   const result = query.get(userId);
-  result.then((user) => {
+  return result.then((user) => {
     return user;
   });
 };

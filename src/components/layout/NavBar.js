@@ -99,7 +99,11 @@ const Navbar = () => {
       <Nav.Item>
         <Button
           variant='outline-success'
-          onClick={() => authenticate({ type: "erd" })}
+          onClick={() =>
+            authenticate({
+              type: "erd",
+            })
+          }
         >
           Wallet Connect
         </Button>

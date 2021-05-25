@@ -27,6 +27,8 @@ const ViewGig = (props) => {
         setGig(gig);
         getEmailByUserId(gig.getSellerId())
           .then((sellerEmail) => {
+            console.log("sellerid" + gig.getSellerId);
+            console.log("selleremail" + sellerEmail);
             setEmail(sellerEmail);
           })
           .catch((err) => {
@@ -50,9 +52,12 @@ const ViewGig = (props) => {
       gig.getPrice() * 1.2
     )
       .then((reply) => {
-        console.log(reply.getHash().hash);
-        gig.setStatus("In Order");
-        gig.setBuyerId(user.id);
+        console.log(reply.getHash().toString());
+        console.log(reply.getStatus().isSuccessful());
+        if (reply.getStatus().isSuccessful()) {
+          gig.setStatus("In Order");
+          gig.setBuyerId(user.id);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -62,7 +67,7 @@ const ViewGig = (props) => {
   const deliver = () => {
     sellerDeliver(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
-        console.log(reply.getHash().hash);
+        console.log(reply.getHash().toString());
       })
       .catch((err) => {
         console.log(err);
@@ -73,9 +78,12 @@ const ViewGig = (props) => {
   const claim = () => {
     sellerClaim(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
-        console.log(reply.getHash().hash);
-        gig.setStatus("Open");
-        gig.removeBuyerId();
+        console.log(reply.getHash().toString());
+        if (reply.getStatus().isSuccessful()) {
+          gig.setStatus("Open");
+          gig.removeBuyerId();
+        }
+        console.log(reply.getHash().toString());
       })
       .catch((err) => {
         console.log(err);
@@ -85,16 +93,18 @@ const ViewGig = (props) => {
   const unlist = () => {
     sellerUnlist(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
-        console.log(reply.getHash().hash);
-        // remove listing
-        gig
-          .destroy()
-          .then((gig) => {
-            console.log("Gig succesfully unlisted");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        console.log(reply.getHash().toString());
+        if (reply.getStatus().isSuccessful()) {
+          // remove listing
+          gig
+            .destroy()
+            .then((gig) => {
+              console.log("Gig succesfully unlisted");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -104,7 +114,7 @@ const ViewGig = (props) => {
   const accept = () => {
     buyerAccept(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
-        console.log(reply.getHash().hash);
+        console.log(reply.getHash().toString());
       })
       .catch((err) => {
         console.log(err);
@@ -115,8 +125,11 @@ const ViewGig = (props) => {
     buyerRefund(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
         console.log(reply.getHash().hash);
-        gig.setStatus("Open");
-        gig.removeBuyerId();
+        console.log(reply.getHash().toString());
+        if (reply.getStatus().isSuccessful()) {
+          gig.setStatus("Open");
+          gig.removeBuyerId();
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -130,9 +143,11 @@ const ViewGig = (props) => {
       gig.getSellerAddr()
     )
       .then((reply) => {
-        console.log(reply.getHash().hash);
-        gig.setStatus("Open");
-        gig.removeBuyerId();
+        console.log(reply.getHash().toString());
+        if (reply.getStatus().isSuccessful()) {
+          gig.setStatus("Open");
+          gig.removeBuyerId();
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -176,14 +191,6 @@ const ViewGig = (props) => {
       >
         Claim
       </Button>
-
-      <Button
-        onClick={unlist}
-        variant='outline-success'
-        style={{ marginLeft: "5px", width: "80px" }}
-      >
-        Unlist
-      </Button>
     </Row>
   );
   // seller & Open
@@ -191,6 +198,7 @@ const ViewGig = (props) => {
   let sellerOpenItems = (
     <Row style={{ marginTop: "60px" }}>
       <Button
+        onClick={unlist}
         variant='outline-success'
         style={{ marginLeft: "5px", width: "80px" }}
       >
@@ -243,13 +251,13 @@ const ViewGig = (props) => {
           </Col>
           <Col style={{ marginLeft: "10px", width: "100%" }} xs={6}>
             <Row style={{ width: "100%", marginBottom: "0px" }}>
-              <Col xs="8" style={{ margin: "0px", padding: "0px" }}>
-                <h1 className="d-flex">{gig.getTitle()}</h1>
+              <Col xs='8' style={{ margin: "0px", padding: "0px" }}>
+                <h1 className='d-flex'>{gig.getTitle()}</h1>
               </Col>
-              <Col xs="4" style={{ marginLeft: "0px", paddingLeft: "0px" }}>
+              <Col xs='4' style={{ marginLeft: "0px", paddingLeft: "0px" }}>
                 <Button
                   size='sm'
-                  variant={ gig.getStatus() === "Open" ? 'success' : "secondary" }
+                  variant={gig.getStatus() === "Open" ? "success" : "secondary"}
                   style={{ marginTop: "10px", marginLeft: "20px" }}
                 >
                   {gig.getStatus()}
@@ -268,7 +276,10 @@ const ViewGig = (props) => {
             </Row>
 
             <Row style={{ marginTop: "10px" }}>{gig.getPrice()} EGLD</Row>
-            <Row style={{ marginTop: "10px" }}>Delivery Time: { gig.getDeliveryTime() ? gig.getDeliveryTime() : "undefined" } Days</Row>
+            <Row style={{ marginTop: "10px" }}>
+              Delivery Time:{" "}
+              {gig.getDeliveryTime() ? gig.getDeliveryTime() : "undefined"} Days
+            </Row>
             <Row style={{ marginTop: "10px" }}>{email}</Row>
 
             {items}
@@ -322,12 +333,12 @@ const ViewGig = (props) => {
         </Col>
         <Col style={{ marginLeft: "10px", width: "100%" }} xs={6}>
           <Row style={{ width: "100%", marginBottom: "0px" }}>
-            <Col xs="8" style={{ margin: "0px", padding: "0px" }}>
-              <h1 className="d-flex">{gig.getTitle()}</h1>
+            <Col xs='8' style={{ margin: "0px", padding: "0px" }}>
+              <h1 className='d-flex'>{gig.getTitle()}</h1>
             </Col>
-            <Col xs="4" style={{ marginLeft: "0px", paddingLeft: "0px" }}>
+            <Col xs='4' style={{ marginLeft: "0px", paddingLeft: "0px" }}>
               <Button
-                variant={ gig.getStatus() === "Open" ? 'success' : "secondary" }
+                variant={gig.getStatus() === "Open" ? "success" : "secondary"}
                 size='sm'
                 style={{ marginTop: "10px", marginLeft: "20px" }}
               >
@@ -347,7 +358,10 @@ const ViewGig = (props) => {
           </Row>
 
           <Row style={{ marginTop: "10px" }}>{gig.getPrice()} EGLD</Row>
-          <Row style={{ marginTop: "10px" }}>Delivery Time: { gig.getDeliveryTime() ? gig.getDeliveryTime() : "undefined" } Days</Row>
+          <Row style={{ marginTop: "10px" }}>
+            Delivery Time:{" "}
+            {gig.getDeliveryTime() ? gig.getDeliveryTime() : "undefined"} Days
+          </Row>
           <Row style={{ marginTop: "10px" }}>{email}</Row>
 
           {items}
