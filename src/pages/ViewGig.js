@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useMoralis } from "react-moralis";
+import LoadingGig from "../components/gig/LoadingGig";
 import {
   buyerOrder,
   sellerClaim,
@@ -19,6 +20,7 @@ const ViewGig = (props) => {
   const [gig, setGig] = useState();
   const { gigId } = props.match.params;
   const [email, setEmail] = useState("");
+  const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
     try {
@@ -45,6 +47,7 @@ const ViewGig = (props) => {
   }
 
   const order = () => {
+    setLoading(true)
     buyerOrder(
       user.get("erdAddress"),
       gig.getOnChainId(),
@@ -62,9 +65,11 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setLoading(false)
   };
 
   const deliver = () => {
+    setLoading(true)
     sellerDeliver(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
         console.log(reply.getHash().toString());
@@ -72,10 +77,12 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setLoading(false)
   };
 
   // Ends Order
   const claim = () => {
+    setLoading(true)
     sellerClaim(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
         console.log(reply.getHash().toString());
@@ -88,9 +95,11 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setLoading(false)
   };
 
   const unlist = () => {
+    setLoading(true)
     sellerUnlist(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
         console.log(reply.getHash().toString());
@@ -109,9 +118,11 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setLoading(false)
   };
 
   const accept = () => {
+    setLoading(true)
     buyerAccept(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
         console.log(reply.getHash().toString());
@@ -119,9 +130,11 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setLoading(false)
   };
   // Ends order
   const refund = () => {
+    setLoading(true)
     buyerRefund(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
         console.log(reply.getHash().hash);
@@ -134,9 +147,11 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setLoading(false)
   };
   // Ends order
   const dispute = () => {
+    setLoading(true)
     buyerDispute(
       user.get("erdAddress"),
       gig.getOnChainId(),
@@ -152,6 +167,7 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setLoading(false)
   };
 
   // DEFAULT
@@ -242,6 +258,7 @@ const ViewGig = (props) => {
       <Container
         style={{ width: "65%", marginTop: "50px", marginBottom: "50px" }}
       >
+        <LoadingGig show={isLoading} />
         <Row>
           <Col>
             <img
@@ -324,6 +341,7 @@ const ViewGig = (props) => {
     <Container
       style={{ width: "65%", marginTop: "50px", marginBottom: "50px" }}
     >
+      <LoadingGig show={isLoading} />
       <Row>
         <Col>
           <img
