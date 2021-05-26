@@ -13,9 +13,11 @@ import {
 // import TimeAgo from '../../components/gig/TimeAgo'
 import { selectGigById } from "../utils/GigUtils";
 import { getEmailByUserId } from "../utils/UserUtils";
+import { useHistory } from "react-router";
 
 const ViewGig = (props) => {
   const { isAuthenticated, user } = useMoralis();
+  const history = useHistory();
   const [gig, setGig] = useState();
   const { gigId } = props.match.params;
   const [email, setEmail] = useState("");
@@ -100,6 +102,7 @@ const ViewGig = (props) => {
             .destroy()
             .then((gig) => {
               console.log("Gig succesfully unlisted");
+              history.push("/");
             })
             .catch((err) => {
               console.log(err);
