@@ -261,7 +261,7 @@ const ViewGig = (props) => {
               <Col xs='4' style={{ marginLeft: "0px", paddingLeft: "0px" }}>
                 <Button
                   size='sm'
-                  variant={gig.getStatus() === "Open" ? "success" : "secondary"}
+                  variant={gig.getStatus() === "Open" ? "success" : "warning"}
                   style={{ marginTop: "10px", marginLeft: "20px" }}
                 >
                   {gig.getStatus()}
@@ -343,7 +343,7 @@ const ViewGig = (props) => {
             </Col>
             <Col xs='4' style={{ marginLeft: "0px", paddingLeft: "0px" }}>
               <Button
-                variant={gig.getStatus() === "Open" ? "success" : "secondary"}
+                variant={gig.getStatus() === "Open" ? "success" : "warning"}
                 size='sm'
                 style={{ marginTop: "10px", marginLeft: "20px" }}
               >

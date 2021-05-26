@@ -32,8 +32,8 @@ const GigCard = ({ gig }) => {
       <hr
         style={{
           color: gig.getStatus() === "Open" ? "#28A745" : "#909090",
-          backgroundColor: gig.getStatus() === "Open" ? "#28A745" : "#909090",
-          height: 1,
+          backgroundColor: gig.getStatus() === "Open" ? "#28A745" : "#FFC107",
+          height: 3,
           width: "80%",
           marginTop: "0px",
           marginBottom: "0px",
