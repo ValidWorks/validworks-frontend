@@ -21,12 +21,14 @@ const ViewGig = (props) => {
   const [gig, setGig] = useState();
   const { gigId } = props.match.params;
   const [email, setEmail] = useState("");
+  const [gigStatus, setGigStatus] = useState('')
 
   useEffect(() => {
     try {
       selectGigById(gigId).then((gig) => {
         console.log("Gig successfully retrieved");
         setGig(gig);
+        setGigStatus(gig.getStatus())
         getEmailByUserId(gig.getSellerId())
           .then((sellerEmail) => {
             console.log("sellerid" + gig.getSellerId);
@@ -59,6 +61,7 @@ const ViewGig = (props) => {
         if (reply.getStatus().isSuccessful()) {
           gig.setStatus("In Order");
           gig.setBuyerId(user.id);
+          setGigStatus(gig.getStatus())
         }
       })
       .catch((err) => {
@@ -264,7 +267,7 @@ const ViewGig = (props) => {
                   variant={gig.getStatus() === "Open" ? "success" : "warning"}
                   style={{ marginTop: "10px", marginLeft: "20px" }}
                 >
-                  {gig.getStatus()}
+                  {gigStatus}
                 </Button>
               </Col>
             </Row>
@@ -347,7 +350,7 @@ const ViewGig = (props) => {
                 size='sm'
                 style={{ marginTop: "10px", marginLeft: "20px" }}
               >
-                {gig.getStatus()}
+                {gigStatus}
               </Button>
             </Col>
           </Row>

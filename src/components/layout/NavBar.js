@@ -100,6 +100,7 @@ const Navbar = () => {
           onClick={() =>
             authenticate({
               type: "erd",
+              onError: err => alert(err)
             })
           }
         >
