@@ -86,6 +86,7 @@ const ViewGig = (props) => {
         console.log(reply.getHash().toString());
         if (reply.getStatus().isSuccessful()) {
           gig.setStatus("Open");
+          setGigStatus(gig.getStatus())
           gig.removeBuyerId();
         }
         console.log(reply.getHash().toString());
@@ -134,6 +135,7 @@ const ViewGig = (props) => {
         console.log(reply.getHash().toString());
         if (reply.getStatus().isSuccessful()) {
           gig.setStatus("Open");
+          setGigStatus(gig.getStatus())
           gig.removeBuyerId();
         }
       })
@@ -152,6 +154,7 @@ const ViewGig = (props) => {
         console.log(reply.getHash().toString());
         if (reply.getStatus().isSuccessful()) {
           gig.setStatus("Open");
+          setGigStatus(gig.getStatus())
           gig.removeBuyerId();
         }
       })
