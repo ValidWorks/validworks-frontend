@@ -24,8 +24,6 @@ const Navbar = () => {
 
   const [email, setEmail] = useState("");
 
-  console.log(user);
-
   const submitForm = () => {
     user.set("email", email);
     handleClose();

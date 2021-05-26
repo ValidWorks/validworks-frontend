@@ -9,6 +9,14 @@ const GigCard = ({ gig }) => {
   const price = gig.getPrice();
   const thumbnailUrl = gig.getThumbnail().url();
 
+  let displayTitle = title;
+  if (title.length > 30) {
+    displayTitle =
+      title.substring(0, 6) +
+      "..." +
+      title.substring(title.length - 24, title.length);
+  }
+
   return (
     <div
       style={{ textAlign: "center" }}
@@ -27,7 +35,7 @@ const GigCard = ({ gig }) => {
         }}
       />
       <p style={{ fontSize: "14px", padding: "5px 0", marginBottom: "3px" }}>
-        {title}
+        {displayTitle}
       </p>
       <hr
         style={{
