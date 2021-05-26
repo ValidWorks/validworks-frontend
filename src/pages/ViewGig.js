@@ -11,8 +11,8 @@ import {
   buyerAccept,
 } from "../utils/ErdjsUtils";
 // import TimeAgo from '../../components/gig/TimeAgo'
-import { selectGigById, getBuyerId } from "../utils/GigUtils";
-import { getEmailByUserId, getUserById } from "../utils/UserUtils";
+import { selectGigById } from "../utils/GigUtils";
+import { getEmailByUserId } from "../utils/UserUtils";
 
 const ViewGig = (props) => {
   const { isAuthenticated, user } = useMoralis();
@@ -245,6 +245,7 @@ const ViewGig = (props) => {
         <Row>
           <Col>
             <img
+              alt='gig thumbnail'
               style={{ height: "300px", width: "300px" }}
               src={gig.getThumbnail().url()}
             />
@@ -327,6 +328,7 @@ const ViewGig = (props) => {
       <Row>
         <Col>
           <img
+            alt='gig thumbnail'
             style={{ height: "300px", width: "300px" }}
             src={gig.getThumbnail().url()}
           />

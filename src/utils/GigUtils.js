@@ -1,5 +1,4 @@
 import moralis from "moralis";
-import { getErdAddrByUserId } from "./UserUtils";
 
 // Database Objects
 const Gig = moralis.Object.extend("Gig", {
@@ -68,27 +67,6 @@ const Gig = moralis.Object.extend("Gig", {
   },
   getDeliveryTime: function() {
     return this.get("deliveryTime");
-  },
-});
-
-const Order = moralis.Object.extend("Order", {
-  getId: function() {
-    return this.id.toString();
-  },
-  getGigId: function() {
-    return this.get("gigId").toString();
-  },
-  getBuyerId: function() {
-    return this.get("buyerId").toString();
-  },
-  getSellerId: function() {
-    return this.get("sellerId").toString();
-  },
-  getTxHash: function() {
-    return this.get("txHash").toString();
-  },
-  getStatus: function() {
-    return this.get("status").toString();
   },
 });
 

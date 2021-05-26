@@ -7,7 +7,7 @@ import GigCard from "./GigCard";
 
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
-import { selectGigsBySellerId, listGigs } from "../../utils/GigUtils";
+import { selectGigsBySellerId } from "../../utils/GigUtils";
 
 import { ArrowBackIos, ArrowForwardIos } from "@material-ui/icons";
 

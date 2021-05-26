@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router";
-import moralis from "moralis";
 
 const GigCard = ({ gig }) => {
   const history = useHistory();

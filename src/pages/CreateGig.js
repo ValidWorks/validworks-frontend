@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Alert, Button, CloseButton, Form, Row, Col } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { useMoralis } from "react-moralis";
