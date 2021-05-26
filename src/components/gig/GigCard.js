@@ -51,7 +51,6 @@ const GigCard = ({ gig }) => {
         style={{
           fontSize: "16px",
           padding: "5px 0",
-          color: "#28A745",
           marginTop: "2px",
         }}
       >
