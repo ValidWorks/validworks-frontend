@@ -24,8 +24,6 @@ const CreateGig = () => {
   const onCreateNewGig = (event) => {
     event.preventDefault();
 
-    setIsLoading(true)
-
     // Generate gig_id: u64
 
     // Convert delivery time (in days) to nonce
@@ -35,6 +33,7 @@ const CreateGig = () => {
     let sellerAddr = user.get("erdAddress");
 
     if (addGigStatus === "idle") {
+      setIsLoading(true)
       sellerList(sellerAddr, onChainId, deliveryNonce, price)
         .then((reply) => {
           console.log(reply.getHash().toString());
@@ -67,9 +66,11 @@ const CreateGig = () => {
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          setIsLoading(false)
         });
     }
-    setIsLoading(false)
   };
 
   return (
@@ -132,9 +133,9 @@ const CreateGig = () => {
             onChange={(e) => setDesc(e.target.value)}
           />
         </Form.Group>
-        <Button variant='success' type='submit'>
-          List Gig
-          {isLoading && <Spinner animation="border" role="status" />}
+        <Button variant='success' type='submit' disabled={isLoading}>
+          List Gig&nbsp;
+          {isLoading && <Spinner animation="border" role="status" size="sm" />}
         </Button>
       </Form>
     </div>

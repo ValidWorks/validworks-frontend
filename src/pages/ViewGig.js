@@ -68,8 +68,10 @@ const ViewGig = (props) => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false)
       });
-    setIsLoading(false)
   };
 
   const deliver = () => {
@@ -80,8 +82,10 @@ const ViewGig = (props) => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false)
       });
-    setIsLoading(false)
   };
 
   // Ends Order
@@ -99,8 +103,10 @@ const ViewGig = (props) => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false)
       });
-    setIsLoading(false)
   };
 
   const unlist = () => {
@@ -123,8 +129,10 @@ const ViewGig = (props) => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false)
       });
-    setIsLoading(false)
   };
 
   const accept = () => {
@@ -135,8 +143,10 @@ const ViewGig = (props) => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false)
       });
-    setIsLoading(false)
   };
   // Ends order
   const refund = () => {
@@ -153,8 +163,10 @@ const ViewGig = (props) => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false)
       });
-    setIsLoading(false)
   };
   // Ends order
   const dispute = () => {
@@ -174,8 +186,10 @@ const ViewGig = (props) => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false)
       });
-    setIsLoading(false)
   };
 
   // DEFAULT
@@ -230,7 +244,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Unlist
-        {isLoading && <Spinner animation="border" role="status" />}
+        {isLoading && <Spinner animation="border" role="status" size="sm" />}
       </Button>
     </Row>
   );
@@ -244,7 +258,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Refund
-        {isLoading && <Spinner animation="border" role="status" />}
+        {isLoading && <Spinner animation="border" role="status" size="sm" />}
       </Button>
 
       <Button
@@ -253,7 +267,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Dispute
-        {isLoading && <Spinner animation="border" role="status" />}
+        {isLoading && <Spinner animation="border" role="status" size="sm" />}
       </Button>
 
       <Button
@@ -262,7 +276,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Accept
-        {isLoading && <Spinner animation="border" role="status" />}
+        {isLoading && <Spinner animation="border" role="status" size="sm" />}
       </Button>
     </Row>
   );
