@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Button, CloseButton, Form, Row, Col } from "react-bootstrap";
+import { Alert, Button, CloseButton, Form, Row, Col, Spinner } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { useMoralis } from "react-moralis";
 
@@ -13,6 +13,7 @@ const CreateGig = () => {
   const [deliveryTime, setDeliveryTime] = useState("");
   const [desc, setDesc] = useState("");
   const [addGigStatus, setAddGigStatus] = useState("idle");
+  const [isLoading, setIsLoading] = useState(false)
 
   const history = useHistory();
   const { Moralis, user } = useMoralis();
@@ -22,6 +23,8 @@ const CreateGig = () => {
 
   const onCreateNewGig = (event) => {
     event.preventDefault();
+
+    setIsLoading(true)
 
     // Generate gig_id: u64
 
@@ -66,6 +69,7 @@ const CreateGig = () => {
           console.log(err);
         });
     }
+    setIsLoading(false)
   };
 
   return (
@@ -130,6 +134,7 @@ const CreateGig = () => {
         </Form.Group>
         <Button variant='success' type='submit'>
           List Gig
+          {isLoading && <Spinner animation="border" role="status" />}
         </Button>
       </Form>
     </div>

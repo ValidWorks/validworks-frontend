@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import { useMoralis } from "react-moralis";
 import {
   buyerOrder,
@@ -22,6 +22,7 @@ const ViewGig = (props) => {
   const { gigId } = props.match.params;
   const [email, setEmail] = useState("");
   const [gigStatus, setGigStatus] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     try {
@@ -49,6 +50,7 @@ const ViewGig = (props) => {
   }
 
   const order = () => {
+    setIsLoading(true)
     buyerOrder(
       user.get("erdAddress"),
       gig.getOnChainId(),
@@ -67,9 +69,11 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setIsLoading(false)
   };
 
   const deliver = () => {
+    setIsLoading(true)
     sellerDeliver(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
         console.log(reply.getHash().toString());
@@ -77,10 +81,12 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setIsLoading(false)
   };
 
   // Ends Order
   const claim = () => {
+    setIsLoading(true)
     sellerClaim(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
         console.log(reply.getHash().toString());
@@ -94,9 +100,11 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setIsLoading(false)
   };
 
   const unlist = () => {
+    setIsLoading(true)
     sellerUnlist(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
         console.log(reply.getHash().toString());
@@ -116,9 +124,11 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setIsLoading(false)
   };
 
   const accept = () => {
+    setIsLoading(true)
     buyerAccept(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
         console.log(reply.getHash().toString());
@@ -126,9 +136,11 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setIsLoading(false)
   };
   // Ends order
   const refund = () => {
+    setIsLoading(true)
     buyerRefund(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
         console.log(reply.getHash().hash);
@@ -142,9 +154,11 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setIsLoading(false)
   };
   // Ends order
   const dispute = () => {
+    setIsLoading(true)
     buyerDispute(
       user.get("erdAddress"),
       gig.getOnChainId(),
@@ -161,6 +175,7 @@ const ViewGig = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    setIsLoading(false)
   };
 
   // DEFAULT
@@ -178,6 +193,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Order
+        {isLoading && <Spinner animation="border" role="status" />}
       </Button>
     </Row>
   );
@@ -191,6 +207,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Deliver
+        {isLoading && <Spinner animation="border" role="status" />}
       </Button>
 
       <Button
@@ -199,6 +216,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Claim
+        {isLoading && <Spinner animation="border" role="status" />}
       </Button>
     </Row>
   );
@@ -212,6 +230,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Unlist
+        {isLoading && <Spinner animation="border" role="status" />}
       </Button>
     </Row>
   );
@@ -225,6 +244,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Refund
+        {isLoading && <Spinner animation="border" role="status" />}
       </Button>
 
       <Button
@@ -233,6 +253,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Dispute
+        {isLoading && <Spinner animation="border" role="status" />}
       </Button>
 
       <Button
@@ -241,6 +262,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Accept
+        {isLoading && <Spinner animation="border" role="status" />}
       </Button>
     </Row>
   );
