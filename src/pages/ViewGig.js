@@ -27,6 +27,7 @@ const ViewGig = (props) => {
   const [action, setAction] = useState("")
   const [showSuccess, setShowSuccess] = useState(false)
   const [txHash, setTxHash] = useState("")
+  const [txStatus, setTxStatus] = useState("")
 
   useEffect(() => {
     try {
@@ -63,14 +64,13 @@ const ViewGig = (props) => {
       gig.getPrice() * 1.2
     )
       .then((reply) => {
-        console.log(reply.getHash().toString());
-        console.log(reply.getStatus().isSuccessful());
+        setShowSuccess(true)
+        setTxHash(reply.getHash().toString());
+        setTxStatus(reply.getStatus().isSuccessful() ? "Success" : "Failed")
         if (reply.getStatus().isSuccessful()) {
           gig.setStatus("In Order");
           gig.setBuyerId(user.id);
           setGigStatus(gig.getStatus())
-          setShowSuccess(true)
-          setTxHash(reply.getHash().toString())
         }
       })
       .catch((err) => {
@@ -87,9 +87,9 @@ const ViewGig = (props) => {
     setAction("deliver")
     sellerDeliver(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
-        console.log(reply.getHash().toString());
         setShowSuccess(true)
         setTxHash(reply.getHash().toString())
+        setTxStatus(reply.getStatus().isSuccessful() ? "Success" : "Failed")
       })
       .catch((err) => {
         console.log(err);
@@ -106,15 +106,14 @@ const ViewGig = (props) => {
     setAction("claim")
     sellerClaim(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
-        console.log(reply.getHash().toString());
+        setShowSuccess(true)
+        setTxHash(reply.getHash().toString());
+        setTxStatus(reply.getStatus().isSuccessful() ? "Success" : "Failed")
         if (reply.getStatus().isSuccessful()) {
           gig.setStatus("Open");
           setGigStatus(gig.getStatus())
           gig.removeBuyerId();
-          setShowSuccess(true)
-          setTxHash(reply.getHash().toString())
         }
-        console.log(reply.getHash().toString());
       })
       .catch((err) => {
         console.log(err);
@@ -130,10 +129,10 @@ const ViewGig = (props) => {
     setAction("unlist")
     sellerUnlist(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
-        console.log(reply.getHash().toString());
+        setShowSuccess(true)
+        setTxHash(reply.getHash().toString());
+        setTxStatus(reply.getStatus().isSuccessful() ? "Success" : "Failed")
         if (reply.getStatus().isSuccessful()) {
-          setShowSuccess(true)
-          setTxHash(reply.getHash().toString())
           // remove listing
           gig
             .destroy()
@@ -160,9 +159,9 @@ const ViewGig = (props) => {
     setAction("accept")
     buyerAccept(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
-        console.log(reply.getHash().toString());
         setShowSuccess(true)
         setTxHash(reply.getHash().toString())
+        setTxStatus(reply.getStatus().isSuccessful() ? "Success" : "Failed")
       })
       .catch((err) => {
         console.log(err);
@@ -178,8 +177,9 @@ const ViewGig = (props) => {
     setAction("refund")
     buyerRefund(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
-        console.log(reply.getHash().hash);
-        console.log(reply.getHash().toString());
+        setShowSuccess(true)
+        setTxHash(reply.getHash().toString());
+        setTxStatus(reply.getStatus().isSuccessful() ? "Success" : "Failed")
         if (reply.getStatus().isSuccessful()) {
           gig.setStatus("Open");
           setGigStatus(gig.getStatus())
@@ -204,13 +204,13 @@ const ViewGig = (props) => {
       gig.getSellerAddr()
     )
       .then((reply) => {
-        console.log(reply.getHash().toString());
+        setShowSuccess(true)
+        setTxHash(reply.getHash().toString());
+        setTxStatus(reply.getStatus().isSuccessful() ? "Success" : "Failed")
         if (reply.getStatus().isSuccessful()) {
           gig.setStatus("Open");
           setGigStatus(gig.getStatus())
           gig.removeBuyerId();
-          setShowSuccess(true)
-          setTxHash(reply.getHash().toString())
         }
       })
       .catch((err) => {
@@ -400,7 +400,7 @@ const ViewGig = (props) => {
     <Container
       style={{ width: "65%", marginTop: "50px", marginBottom: "50px" }}
     >
-      <SuccessModal show={showSuccess} onHide={() => setShowSuccess(false)} txHash={txHash} />
+      <SuccessModal show={showSuccess} onHide={() => setShowSuccess(false)} txHash={txHash} txStatus={txStatus} />
 
       <Row>
         <Col>

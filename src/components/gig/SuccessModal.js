@@ -11,7 +11,7 @@ const SuccessModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Success!
+          {props.txStatus}!
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
