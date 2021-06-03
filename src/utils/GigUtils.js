@@ -36,17 +36,18 @@ const Gig = moralis.Object.extend("Gig", {
   setStatus: function(newStatus) {
     console.log("status run");
     this.set("status", newStatus);
-    this.save().then(
-      (gig) => {
-        // Execute any logic that should take place after the object is saved.
-        alert("New object created with gigId: " + gig.id);
-      },
-      (error) => {
-        // Execute any logic that should take place if the save fails.
-        // error is a Moralis.Error with an error code and message.
-        alert("Failed to create new object, with error code: " + error.message);
-      }
-    );
+    this.save()
+    // .then(
+    //   (gig) => {
+    //     // Execute any logic that should take place after the object is saved.
+    //     alert("New object created with gigId: " + gig.id);
+    //   },
+    //   (error) => {
+    //     // Execute any logic that should take place if the save fails.
+    //     // error is a Moralis.Error with an error code and message.
+    //     alert("Failed to create new object, with error code: " + error.message);
+    //   }
+    // );
   },
   setBuyerId: function(newBuyerId) {
     this.set("buyerId", newBuyerId);

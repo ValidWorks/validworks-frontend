@@ -14,6 +14,7 @@ import {
 import { selectGigById } from "../utils/GigUtils";
 import { getEmailByUserId } from "../utils/UserUtils";
 import { useHistory } from "react-router";
+import SuccessModal from "../components/gig/SuccessModal";
 
 const ViewGig = (props) => {
   const { isAuthenticated, user } = useMoralis();
@@ -23,6 +24,9 @@ const ViewGig = (props) => {
   const [email, setEmail] = useState("");
   const [gigStatus, setGigStatus] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [action, setAction] = useState("")
+  const [showSuccess, setShowSuccess] = useState(false)
+  const [txHash, setTxHash] = useState("")
 
   useEffect(() => {
     try {
@@ -51,6 +55,7 @@ const ViewGig = (props) => {
 
   const order = () => {
     setIsLoading(true)
+    setAction("order")
     buyerOrder(
       user.get("erdAddress"),
       gig.getOnChainId(),
@@ -64,6 +69,8 @@ const ViewGig = (props) => {
           gig.setStatus("In Order");
           gig.setBuyerId(user.id);
           setGigStatus(gig.getStatus())
+          setShowSuccess(true)
+          setTxHash(reply.getHash().toString())
         }
       })
       .catch((err) => {
@@ -71,26 +78,32 @@ const ViewGig = (props) => {
       })
       .finally(() => {
         setIsLoading(false)
+        setAction("")
       });
   };
 
   const deliver = () => {
     setIsLoading(true)
+    setAction("deliver")
     sellerDeliver(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
         console.log(reply.getHash().toString());
+        setShowSuccess(true)
+        setTxHash(reply.getHash().toString())
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
         setIsLoading(false)
+        setAction("")
       });
   };
 
   // Ends Order
   const claim = () => {
     setIsLoading(true)
+    setAction("claim")
     sellerClaim(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
         console.log(reply.getHash().toString());
@@ -98,6 +111,8 @@ const ViewGig = (props) => {
           gig.setStatus("Open");
           setGigStatus(gig.getStatus())
           gig.removeBuyerId();
+          setShowSuccess(true)
+          setTxHash(reply.getHash().toString())
         }
         console.log(reply.getHash().toString());
       })
@@ -106,15 +121,19 @@ const ViewGig = (props) => {
       })
       .finally(() => {
         setIsLoading(false)
+        setAction("")
       });
   };
 
   const unlist = () => {
     setIsLoading(true)
+    setAction("unlist")
     sellerUnlist(user.get("erdAddress"), gig.getOnChainId())
       .then((reply) => {
         console.log(reply.getHash().toString());
         if (reply.getStatus().isSuccessful()) {
+          setShowSuccess(true)
+          setTxHash(reply.getHash().toString())
           // remove listing
           gig
             .destroy()
@@ -132,25 +151,31 @@ const ViewGig = (props) => {
       })
       .finally(() => {
         setIsLoading(false)
+        setAction("")
       });
   };
 
   const accept = () => {
     setIsLoading(true)
+    setAction("accept")
     buyerAccept(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
         console.log(reply.getHash().toString());
+        setShowSuccess(true)
+        setTxHash(reply.getHash().toString())
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
         setIsLoading(false)
+        setAction("")
       });
   };
   // Ends order
   const refund = () => {
     setIsLoading(true)
+    setAction("refund")
     buyerRefund(user.get("erdAddress"), gig.getOnChainId(), gig.getSellerAddr())
       .then((reply) => {
         console.log(reply.getHash().hash);
@@ -166,11 +191,13 @@ const ViewGig = (props) => {
       })
       .finally(() => {
         setIsLoading(false)
+        setAction("")
       });
   };
   // Ends order
   const dispute = () => {
     setIsLoading(true)
+    setAction("dispute")
     buyerDispute(
       user.get("erdAddress"),
       gig.getOnChainId(),
@@ -182,6 +209,8 @@ const ViewGig = (props) => {
           gig.setStatus("Open");
           setGigStatus(gig.getStatus())
           gig.removeBuyerId();
+          setShowSuccess(true)
+          setTxHash(reply.getHash().toString())
         }
       })
       .catch((err) => {
@@ -189,6 +218,7 @@ const ViewGig = (props) => {
       })
       .finally(() => {
         setIsLoading(false)
+        setAction("")
       });
   };
 
@@ -207,7 +237,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Order
-        {isLoading && <Spinner animation="border" role="status" />}
+        {action === "order" && isLoading && <Spinner animation="border" role="status" />}
       </Button>
     </Row>
   );
@@ -221,7 +251,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Deliver
-        {isLoading && <Spinner animation="border" role="status" />}
+        {action === "deliver" && isLoading && <Spinner animation="border" role="status" />}
       </Button>
 
       <Button
@@ -230,7 +260,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Claim
-        {isLoading && <Spinner animation="border" role="status" />}
+        {action === "claim" && isLoading && <Spinner animation="border" role="status" />}
       </Button>
     </Row>
   );
@@ -244,7 +274,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Unlist
-        {isLoading && <Spinner animation="border" role="status" size="sm" />}
+        {action === "unlist" && isLoading && <Spinner animation="border" role="status" size="sm" />}
       </Button>
     </Row>
   );
@@ -258,7 +288,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Refund
-        {isLoading && <Spinner animation="border" role="status" size="sm" />}
+        {action === "refund" && isLoading && <Spinner animation="border" role="status" size="sm" />}
       </Button>
 
       <Button
@@ -267,7 +297,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Dispute
-        {isLoading && <Spinner animation="border" role="status" size="sm" />}
+        {action === "dispute" && isLoading && <Spinner animation="border" role="status" size="sm" />}
       </Button>
 
       <Button
@@ -276,7 +306,7 @@ const ViewGig = (props) => {
         style={{ marginLeft: "5px", width: "80px" }}
       >
         Accept
-        {isLoading && <Spinner animation="border" role="status" size="sm" />}
+        {action === "accept" && isLoading && <Spinner animation="border" role="status" size="sm" />}
       </Button>
     </Row>
   );
@@ -370,6 +400,8 @@ const ViewGig = (props) => {
     <Container
       style={{ width: "65%", marginTop: "50px", marginBottom: "50px" }}
     >
+      <SuccessModal show={showSuccess} onHide={() => setShowSuccess(false)} txHash={txHash} />
+
       <Row>
         <Col>
           <img
