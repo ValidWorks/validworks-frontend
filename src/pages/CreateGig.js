@@ -48,6 +48,7 @@ const CreateGig = () => {
                 moralisThumbnail,
                 title,
                 price,
+                deliveryTime,
                 desc,
                 sellerId,
                 onChainId,

@@ -76,6 +76,7 @@ const createNewGig = async (
   thumbnail,
   title,
   price,
+  deliveryTime,
   description,
   sellerId,
   onChainId,
@@ -87,6 +88,7 @@ const createNewGig = async (
   newGig.set("thumbnail", thumbnail);
   newGig.set("title", title.toString());
   newGig.set("price", parseFloat(price));
+  newGig.set("deliveryTime", parseFloat(deliveryTime));
   newGig.set("description", description.toString());
   newGig.set("sellerId", sellerId.toString());
   newGig.set("onChainId", onChainId.toString());
