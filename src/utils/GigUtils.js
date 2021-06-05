@@ -17,6 +17,9 @@ const Gig = moralis.Object.extend("Gig", {
   getSellerId: function() {
     return this.get("sellerId").toString();
   },
+  getSellerEmail: function() {
+    return this.get("sellerEmail").toString();
+  },
   getBuyerId: function() {
     if (!this.get("buyerId")) {
       return false;
@@ -79,6 +82,7 @@ const createNewGig = async (
   deliveryTime,
   description,
   sellerId,
+  sellerEmail,
   onChainId,
   listTxHash,
   sellerAddr
@@ -91,6 +95,7 @@ const createNewGig = async (
   newGig.set("deliveryTime", parseFloat(deliveryTime));
   newGig.set("description", description.toString());
   newGig.set("sellerId", sellerId.toString());
+  newGig.set("sellerEmail", sellerEmail.toString());
   newGig.set("onChainId", onChainId.toString());
   newGig.set("listTxHash", listTxHash.toString());
   newGig.set("sellerAddr", sellerAddr.toString());

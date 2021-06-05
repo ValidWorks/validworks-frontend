@@ -12,7 +12,6 @@ import {
 } from "../utils/ErdjsUtils";
 // import TimeAgo from '../../components/gig/TimeAgo'
 import { selectGigById } from "../utils/GigUtils";
-import { getEmailByUserId } from "../utils/UserUtils";
 import { useHistory } from "react-router";
 import SuccessModal from "../components/gig/SuccessModal";
 
@@ -35,15 +34,7 @@ const ViewGig = (props) => {
         console.log("Gig successfully retrieved");
         setGig(gig);
         setGigStatus(gig.getStatus())
-        getEmailByUserId(gig.getSellerId())
-          .then((sellerEmail) => {
-            console.log("sellerid" + gig.getSellerId);
-            console.log("selleremail" + sellerEmail);
-            setEmail(sellerEmail);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        setEmail(gig.getSellerEmail());
       });
     } catch (err) {
       console.log("Error retrieving gig", err);

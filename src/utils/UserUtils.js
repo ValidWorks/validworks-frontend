@@ -11,19 +11,16 @@ const getProfilePhotoUrl = async (userId) => {
 };
 
 const getEmailByUserId = async (userId) => {
-  const query = new moralis.Query(moralis.User);
-  const result = query.get(userId);
-  return result.then((user) => {
-    return user.get("email");
-  });
+  const query = new moralis.Query(moralis.Object.extend("User"));
+  const result = await query.get(userId);
+  console.log(result)
+  return result.get("email")
 };
 
 const getUserById = async (userId) => {
   const query = new moralis.Query(moralis.User);
   const result = query.get(userId);
-  return result.then((user) => {
-    return user;
-  });
+  return result
 };
 
 const updateProfile = async (user, username, email, profilePhoto) => {

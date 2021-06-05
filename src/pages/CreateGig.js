@@ -18,6 +18,7 @@ const CreateGig = () => {
   const history = useHistory();
   const { Moralis, user } = useMoralis();
   const sellerId = user.id;
+  const sellerEmail = user.email
 
   console.log(getRandomNumber());
 
@@ -48,9 +49,9 @@ const CreateGig = () => {
                 moralisThumbnail,
                 title,
                 price,
-                deliveryTime,
                 desc,
                 sellerId,
+                sellerEmail,
                 onChainId,
                 reply.getHash().toString(),
                 sellerAddr
