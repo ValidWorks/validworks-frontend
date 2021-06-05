@@ -8,6 +8,7 @@ const GigCard = ({gig}) => {
   const category = gig.getCategory()
   const thumbnailUrl = gig.getThumbnail().url()
 
+  // eslint-disable-next-line
   return (
     <Card className="mb-4 box-shadow" style={{ width: '18rem' }}>
       <Card.Img variant="top" src={thumbnailUrl} />
@@ -19,7 +20,7 @@ const GigCard = ({gig}) => {
       <Card.Footer>
         <small className="text-muted">Posted 1 day ago</small>
       </Card.Footer>
-      <a href={`/gig/view/${id}`} className="stretched-link"></a>
+      <a href={`/gig/view/${id}`} className="stretched-link"> </a>
     </Card>
   )
 }

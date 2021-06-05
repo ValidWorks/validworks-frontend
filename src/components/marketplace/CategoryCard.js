@@ -11,7 +11,7 @@ const CategoryCard = ({cat}) => {
       <Card.Body>
         <Card.Title>{title}</Card.Title>
       </Card.Body>
-      <a href={`/categories/${title}`} className="stretched-link"></a>
+      <a href={`/categories/${title}`} className="stretched-link"> </a>
     </Card>
   )
 }

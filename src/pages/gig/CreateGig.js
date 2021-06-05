@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Alert, Button, CloseButton, Form, Row, Col } from 'react-bootstrap'
+import { Alert, Button, CloseButton, Form, Row, Col, Spinner } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import moralis from 'moralis'
 
@@ -18,6 +18,8 @@ const CreateGig = () => {
   const [desc, setDesc] = useState('')
   const [addGigStatus, setAddGigStatus] = useState('idle')
   const [subs, setSubs] = useState([])
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const history = useHistory()
 
@@ -38,6 +40,7 @@ const CreateGig = () => {
 
     if (addGigStatus === 'idle') {
       try {
+        setIsLoading(true)
         setAddGigStatus('pending')
         
         const moralisThumbnail = new moralis.File(thumbnail.name, thumbnail)
@@ -49,6 +52,7 @@ const CreateGig = () => {
       } catch (err) {
         console.error('Failed to create new Gig: ', err)
       } finally {
+        setIsLoading(false)
         setAddGigStatus('idle')
       }
     }
@@ -99,7 +103,10 @@ const CreateGig = () => {
           <Form.Label>Description</Form.Label>
           <Form.Control as="textarea" rows={3} value={desc} onChange={(e) => setDesc(e.target.value)}/>
         </Form.Group>
-        <Button variant="primary" type="submit">List Gig</Button>
+        <Button variant='success' type='submit' disabled={isLoading}>
+          List Gig&nbsp;
+          {isLoading && <Spinner animation="border" role="status" size="sm" />}
+        </Button>
       </Form>
     </div>
   )

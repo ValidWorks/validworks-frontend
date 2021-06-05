@@ -7,12 +7,12 @@ const SubCategoryCard = ({sub}) => {
   const cat = sub.getCategory()
 
   return (
-    <Card>
+    <Card href={`/categories/${cat}/${title}`}>
       <Card.Img variant="top" />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
       </Card.Body>
-      <a href={`/categories/${cat}/${title}`} className="stretched-link"></a>
+      <a href={`/categories/${cat}/${title}`} className="stretched-link"> </a>
     </Card>
   )
 }

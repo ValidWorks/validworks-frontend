@@ -1,56 +1,8 @@
 import moralis from 'moralis'
 import GigContract from '../contract/GigContract'
 
+import { Gig, Order } from './Models'
 import { getErdAddrByUserId } from './UserUtils'
-
-// Database Objects
-const Gig = moralis.Object.extend("Gig", {
-  getId: function() {
-    return this.id.toString()
-  },
-  getThumbnail: function() {
-    return this.get('thumbnail')
-  },
-  getTitle: function() {
-    return this.get('title').toString()
-  },
-  getPrice: function() {
-    return this.get('price').toString()
-  },
-  getDeliveryTime: function() {
-    return this.get('deliveryTime').toString()
-  },
-  getSellerId: function() {
-    return this.get('sellerId').toString()
-  },
-  getDesc: function() {
-    return this.get('description').toString()
-  },
-  getCategory: function() {
-    return this.get('category').toString()
-  },
-})
-
-const Order = moralis.Object.extend("Order", {
-  getId: function() {
-    return this.id.toString()
-  },
-  getGigId: function() {
-    return this.get("gigId").toString()
-  },
-  getBuyerId: function() {
-    return this.get("buyerId").toString()
-  },
-  getSellerId: function() {
-    return this.get("sellerId").toString()
-  },
-  getTxHash: function() {
-    return this.get("txHash").toString()
-  },
-  getStatus: function() {
-    return this.get("status").toString()
-  }
-})
 
 // Functions
 export const createNewGig = async (thumbnail, title, price, deliveryTime, category, description, sellerId) => {
@@ -69,17 +21,17 @@ export const createNewGig = async (thumbnail, title, price, deliveryTime, catego
 
   // List the gig on chain
   const erdAddr = await getErdAddrByUserId(sellerId)
-  console.log(erdAddr)
   const contract = new GigContract(erdAddr, gig.id)
-  await contract.sync()
-  contract.listGig(deliveryTime, price)
+  const deliveryNonce = deliveryTime * 14400
+  contract.listGig(deliveryNonce, price)
     .then((reply) => {
-      console.log(reply.getHash().hash)
+      const txHash = reply.getHash().toString()
+      gig.set("txHash", txHash)
       gig.set("status", "listed")
       return gig.save()
     })
     .catch((err) => {
-      console.error(err);
+      console.error("Error listing gig on chain: " + err);
     });
   
   return gig
@@ -88,7 +40,6 @@ export const createNewGig = async (thumbnail, title, price, deliveryTime, catego
 export const editGig = async (gigId, title, price, deliveryTime, category, description) => {
   const gigQuery = new moralis.Query(Gig)
   const existingGig = await gigQuery.get(gigId)
-  console.log("hi")
   const result = existingGig.then((gig) => {
       console.log("Gig was retrieved successfully")
       gig.set("title", title)

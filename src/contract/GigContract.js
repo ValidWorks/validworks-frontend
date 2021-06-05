@@ -1,5 +1,4 @@
 import {
-  SmartContract,
   ProxyProvider,
   Address,
   Account,
@@ -32,11 +31,12 @@ export default class GigContract {
   async sync() {
     // SYNC NONCE
     await this.caller.sync(this.proxyProvider)
-
     return true
   }
 
   async listGig(deadline, price) {
+    await this.sync()
+    
     // LOAD PAYLOAD
     let payload_builder = new ContractCallPayloadBuilder();
     payload_builder.setFunction(new ContractFunction("list")); // function
@@ -64,6 +64,8 @@ export default class GigContract {
   }
 
   async unlistGig() {
+    await this.sync()
+    
     // LOAD PAYLOAD
     let payload_builder = new ContractCallPayloadBuilder();
     payload_builder.setFunction(new ContractFunction("list")); // function
@@ -84,6 +86,8 @@ export default class GigContract {
   }
 
   async deliverGig() {
+    await this.sync()
+    
     // LOAD PAYLOAD
     let payload_builder = new ContractCallPayloadBuilder();
     payload_builder.setFunction(new ContractFunction("deliver")); // function
@@ -103,6 +107,8 @@ export default class GigContract {
   }
 
   async claimPayment() {
+    await this.sync()
+    
     // LOAD PAYLOAD
     let payload_builder = new ContractCallPayloadBuilder();
     payload_builder.setFunction(new ContractFunction("claim")); // function
@@ -122,6 +128,8 @@ export default class GigContract {
   }
 
   async orderGig(sellerAddr, price) {
+    await this.sync()
+    
     const payment = price * 1.2
     // LOAD PAYLOAD
     let payload_builder = new ContractCallPayloadBuilder();
@@ -144,6 +152,8 @@ export default class GigContract {
   }
 
   async refund(sellerAddr) {
+    await this.sync()
+    
     // LOAD PAYLOAD
     let payload_builder = new ContractCallPayloadBuilder();
     payload_builder.setFunction(new ContractFunction("refund")); // function
@@ -164,6 +174,8 @@ export default class GigContract {
   }
 
   async dispute(sellerAddr) {
+    await this.sync()
+    
     // LOAD PAYLOAD
     let payload_builder = new ContractCallPayloadBuilder();
     payload_builder.setFunction(new ContractFunction("dispute")); // function
@@ -184,6 +196,8 @@ export default class GigContract {
   }
 
   async acceptGig(sellerAddr) {
+    await this.sync()
+    
     // LOAD PAYLOAD
     let payload_builder = new ContractCallPayloadBuilder();
     payload_builder.setFunction(new ContractFunction("accept")); // function
