@@ -1,34 +1,7 @@
 import moralis from 'moralis'
 
+import { Gig, Category, SubCategory } from './Models'
 import { GIG_CATEGORIES } from '../data/marketplace.data'
-
-// Database Objects
-const Category = moralis.Object.extend("Category", {
-  getId: function() {
-    return this.id.toString()
-  },
-  getTitle : function() {
-    return this.get('title').toString()
-  },
-  getThumbnail: function() {
-    return this.get('thumbnail')
-  }
-})
-
-const SubCategory = moralis.Object.extend("SubCategory", {
-  getId: function() {
-    return this.id.toString()
-  },
-  getTitle: function() {
-    return this.get('title').toString()
-  },
-  getThumbnail: function() {
-    return this.get('thumbnail')
-  },
-  getCategory: function() {
-    return this.get('category')
-  }
-})
 
 // Functions
 export const initCategories = async () => {
@@ -60,14 +33,27 @@ export const initSubCategories = async () => {
   }
 }
 
-export const getListings = () => {
+export const getGigListings = async () => {
+  const gigQuery = new moralis.Query(Gig)
+  gigQuery.limit(100)
+  const results = gigQuery.find()
+  
+  return results
+}
 
+export const getGigListingsBySub = async (sub) => {
+  const gigQuery = new moralis.Query(Gig)
+  gigQuery.equalTo("SubCategory", sub)
+  gigQuery.limit(100)
+  const results = gigQuery.find()
+  
+  return results
 }
 
 export const getGigCategories = async () => {
   const catQuery = new moralis.Query(Category)
   catQuery.limit(10)
-  const results = await catQuery.find()
+  const results = catQuery.find()
   
   return results
 }
@@ -75,7 +61,7 @@ export const getGigCategories = async () => {
 export const getGigSubCategories = async (cat) => {
   const subQuery = new moralis.Query(SubCategory)
   subQuery.equalTo("category", cat)
-  const results = await subQuery.find()
+  const results = subQuery.find()
   
   return results
 }
@@ -83,7 +69,7 @@ export const getGigSubCategories = async (cat) => {
 export const getAllGigSubCategories = async (cat) => {
   const subQuery = new moralis.Query(SubCategory)
   subQuery.limit(100)
-  const results = await subQuery.find()
+  const results = subQuery.find()
   
   return results
 }

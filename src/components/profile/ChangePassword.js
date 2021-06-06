@@ -34,17 +34,17 @@ const ChangePassword = (showForm = false) => {
   return (
     <div>
       <Form onSubmit={onSetNewPass}>
-        <Form.Group controlId="formBasicPassword">
+        <Form.Group>
           <Form.Label>New Password</Form.Label>
           <Form.Control type="password" placeholder="Password" value={newPass} onChange={(event) => setNewPass(event.target.value)} />
         </Form.Group>
-        <Form.Group controlId="formBasicPassword">
+        <Form.Group>
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control type="password" placeholder="Password" value={confirmPass} onChange={(event) => setConfirmPass(event.target.value)} />
         </Form.Group>
         <ButtonToolbar>
           <ButtonGroup className="mr-2">
-            <Button variant="danger" type="submit" disabled={!passwordMatch}>Change Password</Button>
+            <Button variant="danger" type="submit" disabled={!passwordMatch()}>Change Password</Button>
           </ButtonGroup>
           <ButtonGroup className="mr-2">
             <Button variant="secondary" >Cancel</Button>

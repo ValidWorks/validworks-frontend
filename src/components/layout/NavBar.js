@@ -42,7 +42,7 @@ const Navbar = () => {
   return (
     <BsNavbar className="bg-white border-bottom px-4 py-3">
       <div className="container-fluid">
-        <NavbarBrand href="/" style={{textDecoration: "none"}}>
+        <NavbarBrand href="/" style={{textDecoration: "none", color: "#28A745"}}>
             <h3>
               <span>
               ValidWorks

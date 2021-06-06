@@ -1,50 +1,80 @@
 import moralis from 'moralis'
 
+const getString = result => result ? result.toString() : "undefined"
+
 // Database Objects
 export const Gig = moralis.Object.extend("Gig", {
     getId: function() {
-      return this.id.toString()
+      return getString(this.id)
     },
     getThumbnail: function() {
       return this.get('thumbnail')
     },
     getTitle: function() {
-      return this.get('title').toString()
+      return getString(this.get('title'))
     },
     getPrice: function() {
-      return this.get('price').toString()
+      return getString(this.get('price'))
     },
     getDeliveryTime: function() {
-      return this.get('deliveryTime').toString()
+      return getString(this.get('deliveryTime'))
     },
     getSellerId: function() {
-      return this.get('sellerId').toString()
+      return getString(this.get('sellerId'))
     },
     getDesc: function() {
-      return this.get('description').toString()
+      return getString(this.get('description'))
     },
     getCategory: function() {
-      return this.get('category').toString()
+      return getString(this.get('category'))
     },
   })
   
 export const Order = moralis.Object.extend("Order", {
     getId: function() {
-      return this.id.toString()
+      return getString(this.id)
     },
     getGigId: function() {
-      return this.get("gigId").toString()
+      return getString(this.get("gigId"))
     },
     getBuyerId: function() {
-      return this.get("buyerId").toString()
+      return getString(this.get("buyerId"))
     },
     getSellerId: function() {
-      return this.get("sellerId").toString()
+      return getString(this.get("sellerId"))
     },
     getTxHash: function() {
-      return this.get("txHash").toString()
+      return getString(this.get("txHash"))
     },
     getStatus: function() {
-      return this.get("status").toString()
+      return getString(this.get("status"))
     }
   })
+
+// Database Objects
+export const Category = moralis.Object.extend("Category", {
+  getId: function() {
+    return getString(this.id)
+  },
+  getTitle : function() {
+    return getString(this.get('title'))
+  },
+  getThumbnail: function() {
+    return this.get('thumbnail')
+  }
+})
+
+export const SubCategory = moralis.Object.extend("SubCategory", {
+  getId: function() {
+    return getString(this.id)
+  },
+  getTitle: function() {
+    return getString(this.get('title'))
+  },
+  getThumbnail: function() {
+    return this.get('thumbnail')
+  },
+  getCategory: function() {
+    return getString(this.get('category'))
+  }
+})
