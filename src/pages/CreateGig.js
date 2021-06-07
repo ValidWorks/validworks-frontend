@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Alert, Button, CloseButton, Form, Row, Col, Spinner } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  CloseButton,
+  Form,
+  Row,
+  Col,
+  Spinner,
+} from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { useMoralis } from "react-moralis";
 
@@ -13,14 +21,14 @@ const CreateGig = () => {
   const [deliveryTime, setDeliveryTime] = useState("");
   const [desc, setDesc] = useState("");
   const [addGigStatus, setAddGigStatus] = useState("idle");
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
   const { Moralis, user } = useMoralis();
   const sellerId = user.id;
-  const sellerEmail = user.email
+  const sellerEmail = user.email;
 
-  console.log(getRandomNumber());
+  console.log(sellerId);
 
   const onCreateNewGig = (event) => {
     event.preventDefault();
@@ -34,7 +42,7 @@ const CreateGig = () => {
     let sellerAddr = user.get("erdAddress");
 
     if (addGigStatus === "idle") {
-      setIsLoading(true)
+      setIsLoading(true);
       sellerList(sellerAddr, onChainId, deliveryNonce, price)
         .then((reply) => {
           console.log(reply.getHash().toString());
@@ -49,6 +57,7 @@ const CreateGig = () => {
                 moralisThumbnail,
                 title,
                 price,
+                deliveryTime,
                 desc,
                 sellerId,
                 sellerEmail,
@@ -70,7 +79,7 @@ const CreateGig = () => {
           console.log(err);
         })
         .finally(() => {
-          setIsLoading(false)
+          setIsLoading(false);
         });
     }
   };
@@ -137,7 +146,7 @@ const CreateGig = () => {
         </Form.Group>
         <Button variant='success' type='submit' disabled={isLoading}>
           List Gig&nbsp;
-          {isLoading && <Spinner animation="border" role="status" size="sm" />}
+          {isLoading && <Spinner animation='border' role='status' size='sm' />}
         </Button>
       </Form>
     </div>
