@@ -26,6 +26,7 @@ const Navbar = () => {
 
   const submitForm = () => {
     user.set("email", email);
+    user.save()
     handleClose();
   };
 

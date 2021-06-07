@@ -18,7 +18,10 @@ const CreateGig = () => {
   const history = useHistory();
   const { Moralis, user } = useMoralis();
   const sellerId = user.id;
-  const sellerEmail = user.email
+  const sellerEmail = user.get("email")
+  const sellerAddr = user.get("erdAddress");
+
+  console.log(sellerId, sellerEmail)
 
   console.log(getRandomNumber());
 
@@ -31,7 +34,6 @@ const CreateGig = () => {
     let deliveryNonce = deliveryTime * 14400;
     // TODO: Change sc to use String; generate alphanumeric hash
     let onChainId = getRandomNumber();
-    let sellerAddr = user.get("erdAddress");
 
     if (addGigStatus === "idle") {
       setIsLoading(true)
@@ -49,6 +51,7 @@ const CreateGig = () => {
                 moralisThumbnail,
                 title,
                 price,
+                deliveryTime,
                 desc,
                 sellerId,
                 sellerEmail,
