@@ -20,7 +20,7 @@ const GigCarousel = () => {
 
   useEffect(() => {
     try {
-      selectGigsBySellerId(sellerId).then((g) => setGigs(g));
+      selectGigsBySellerId(sellerId).then((g) => setGigs(g.reverse()));
     } catch (err) {
       console.log("Error retrieving gig", err);
     }
