@@ -59,7 +59,7 @@ const CreateGig = () => {
                 sellerAddr
               ).then((gig) => {
                 console.log("New Gig created with the gigId: ", gig.id);
-                history.push(`/`);
+                history.push(`/gig/view/${gig.id}`);
               });
             } catch (err) {
               console.error("Failed to create new Gig: ", err);
