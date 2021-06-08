@@ -22,7 +22,6 @@ const CreateGig = () => {
   const sellerAddr = user.get("erdAddress");
 
   console.log(sellerId, sellerEmail)
-
   console.log(getRandomNumber());
 
   const onCreateNewGig = (event) => {
