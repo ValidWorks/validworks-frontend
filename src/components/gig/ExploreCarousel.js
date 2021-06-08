@@ -16,7 +16,7 @@ const ExploreCarousel = () => {
   useEffect(() => {
     try {
       listGigs().then((g) => {
-        setGigs(g);
+        setGigs(g.reverse());
       });
     } catch (err) {
       console.log("Error retrieving gig", err);

@@ -23,7 +23,7 @@ const proxyProvider = new ProxyProvider(
 // Ledger integration
 const hwWalletP = new HWProvider(proxyProvider);
 const smartContractAddress = new Address(
-  "erd1qqqqqqqqqqqqqpgqajh5d70yq8nylfqcxjvw3unejqwrgfnsd8ssa24hs0"
+  "erd1qqqqqqqqqqqqqpgq5hj8u9lhxq3yz5r65na00up0ucd6s7uqd8ssywpgmd"
 );
 
 const connectLedger = async () => {

@@ -26,9 +26,11 @@ const CreateGig = () => {
   const history = useHistory();
   const { Moralis, user } = useMoralis();
   const sellerId = user.id;
-  const sellerEmail = user.email;
+  const sellerEmail = user.get("email");
+  const sellerAddr = user.get("erdAddress");
 
-  console.log(sellerId);
+  console.log(sellerId, sellerEmail);
+  console.log(getRandomNumber());
 
   const onCreateNewGig = (event) => {
     event.preventDefault();
@@ -39,7 +41,6 @@ const CreateGig = () => {
     let deliveryNonce = deliveryTime * 14400;
     // TODO: Change sc to use String; generate alphanumeric hash
     let onChainId = getRandomNumber();
-    let sellerAddr = user.get("erdAddress");
 
     if (addGigStatus === "idle") {
       setIsLoading(true);
@@ -66,7 +67,7 @@ const CreateGig = () => {
                 sellerAddr
               ).then((gig) => {
                 console.log("New Gig created with the gigId: ", gig.id);
-                history.push(`/`);
+                history.push(`/gig/view/${gig.id}`);
               });
             } catch (err) {
               console.error("Failed to create new Gig: ", err);

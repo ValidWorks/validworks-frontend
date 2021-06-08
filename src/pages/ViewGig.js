@@ -52,7 +52,7 @@ const ViewGig = (props) => {
       user.get("erdAddress"),
       gig.getOnChainId(),
       gig.getSellerAddr(),
-      gig.getPrice() * 1.2
+      gig.getPrice() * 12 / 10
     )
       .then((reply) => {
         setShowSuccess(true)
