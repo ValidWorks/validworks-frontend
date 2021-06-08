@@ -120,9 +120,8 @@ const Navbar = () => {
           }}
           style={{ textDecoration: "none" }}
         >
-          <h3>
-            <span style={{ color: "#28A745" }}>ValidWorks</span>
-          </h3>
+          <img src="/logo192.png" width="45" alt="" class="d-inline-block align-middle mr-2"></img>
+          <h3 class="d-inline-block align-middle mt-1"><span style={{ color: "#28A745" }}>ValidWorks</span></h3>
         </NavbarBrand>
         {isAuthenticated ? loggedInItems : loggedOutItems}
       </div>
