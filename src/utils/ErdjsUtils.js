@@ -17,13 +17,13 @@ import BigNumber from "bignumber.js";
 
 // Change network (test/dev/main)
 const proxyProvider = new ProxyProvider(
-  "https://testnet-gateway.elrond.com",
+  "https://devnet-gateway.elrond.com",
   10000
 );
 // Ledger integration
 const hwWalletP = new HWProvider(proxyProvider);
 const smartContractAddress = new Address(
-  "erd1qqqqqqqqqqqqqpgqc4ch57e6zjxzzj7lsazfzt9hh2dtf9vpd8ssp6l5ck"
+  "erd1qqqqqqqqqqqqqpgqdlzdg6ecyw6mlhdzauwhafrlpjkjccntd8ssldztxx"
 );
 
 const connectLedger = async () => {
