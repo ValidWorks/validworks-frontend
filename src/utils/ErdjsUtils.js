@@ -26,7 +26,7 @@ NetworkConfig.getDefault().sync(proxyProvider)
 // Ledger integration
 const hwWalletP = new HWProvider(proxyProvider);
 const smartContractAddress = new Address(
-  "erd1qqqqqqqqqqqqqpgqdlzdg6ecyw6mlhdzauwhafrlpjkjccntd8ssldztxx"
+  "erd1qqqqqqqqqqqqqpgq8k3k3drmz9q6adf9lm9p78v4z6ll8ecdd8ss0hgr33"
 );
 
 const connectLedger = async () => {
