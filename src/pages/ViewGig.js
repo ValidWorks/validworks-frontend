@@ -334,7 +334,7 @@ const ViewGig = (props) => {
             <Row style={{ marginTop: "0px" }}>
               <a
                 href={
-                  "https://testnet-explorer.elrond.com/transactions/" +
+                  "https://devnet-explorer.elrond.com/transactions/" +
                   gig.getListTxHash()
                 }
               >
@@ -419,7 +419,7 @@ const ViewGig = (props) => {
           <Row style={{ marginTop: "0px" }}>
             <a
               href={
-                "https://testnet-explorer.elrond.com/transactions/" +
+                "https://devnet-explorer.elrond.com/transactions/" +
                 gig.getListTxHash()
               }
             >

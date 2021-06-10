@@ -155,7 +155,7 @@ const CreateGig = () => {
 };
 
 const getRandomNumber = () => {
-  return Math.random() * 2e19;
+  return Math.random() * 18446744073709551615; // range of u64
 };
 
 export default CreateGig;

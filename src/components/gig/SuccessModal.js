@@ -18,7 +18,7 @@ const SuccessModal = (props) => {
         <span>Your transaction was completed successfully</span>
         <p>
           <a href={
-            "https://testnet-explorer.elrond.com/transactions/" +
+            "https://devnet-explorer.elrond.com/transactions/" +
             props.txHash
           }>
             {props.txHash}
