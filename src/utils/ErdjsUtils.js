@@ -11,6 +11,7 @@ import {
   ContractFunction,
   AddressValue,
   GasLimit,
+  NetworkConfig,
 } from "@elrondnetwork/erdjs";
 
 import BigNumber from "bignumber.js";
@@ -20,6 +21,8 @@ const proxyProvider = new ProxyProvider(
   "https://devnet-gateway.elrond.com",
   10000
 );
+// This code is for the devnet only
+NetworkConfig.getDefault().sync(proxyProvider)
 // Ledger integration
 const hwWalletP = new HWProvider(proxyProvider);
 const smartContractAddress = new Address(
