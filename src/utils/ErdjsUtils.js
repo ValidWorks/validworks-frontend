@@ -22,11 +22,11 @@ const proxyProvider = new ProxyProvider(
   10000
 );
 // This code is for the devnet only
-NetworkConfig.getDefault().sync(proxyProvider)
+NetworkConfig.getDefault().sync(proxyProvider);
 // Ledger integration
 const hwWalletP = new HWProvider(proxyProvider);
 const smartContractAddress = new Address(
-  "erd1qqqqqqqqqqqqqpgq8k3k3drmz9q6adf9lm9p78v4z6ll8ecdd8ss0hgr33"
+  "erd1qqqqqqqqqqqqqpgqu8tpc4gvvvm7sw9lclrhwfqzqcvm03had8sstnep4f"
 );
 
 const connectLedger = async () => {
